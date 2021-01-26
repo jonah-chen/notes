@@ -1,0 +1,254 @@
+\documentclass{article}
+\usepackage[a4paper,margin=0.5in]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{physics}
+\usepackage{physoly}
+\usepackage{verbatim}
+
+\title{Notes on Statistical Mechanics by Pathria}
+\author{Jonah Chen}
+
+\begin{document}
+\maketitle
+\tableofcontents
+Natural units will be used hahahaha $\hbar=c=k_B=1$
+\section{Axioms and Derivation of Thermodynamic Quantities and Formule}
+\begin{itemize}
+    \item The axiom of statistial mechanics is called "equal \textit{a priori} probabilities", that states:
+    \begin{verbatim}
+        When there are no additional constraints, a given macrostate of the system at any
+        time is equally likely to be found in any one of its microstates.
+    \end{verbatim}
+
+    \item The number of macrostates is written as a function of the extensive variables $\Omega(N,V,E)$ representing number of particles, volume and total energy respectively. 
+
+    \begin{definition}
+        Equilibrium is when a system is at a macrostate with the maximum number of microstates. Which is equivilent to when $\Omega$ is maximized.
+    \end{definition}
+
+    \item Firstly we will derive temperature and entropy from our axiom and definition of equilibrium.
+    \begin{derivation}
+        Take two physical systems at equilibrium: $A_1$ at $N_1, V_1, E_1$  and $A_2$ at $N_2, V_2, E_2$. Now have them contact such that the the volume doesn't change but energy is allowed to be transfered from one system to another.
+
+        Energy is conserved, thus $E^0$ is constant,
+        \begin{equation}
+            E^0\equiv E_1+E_2 \label{1}
+        \end{equation}
+
+        When the two systems reach equilibrium again at equilibrium energies $\overline{E_1}$ and $\overline{E_2}$ respectively, by definition the total number of macrostates $\Omega_1(E_1)\Omega_2(E_2)$ is maximized. Thus,
+        \begin{equation}
+            \frac{\partial}{\partial E_1}(\Omega_1(E_1)\Omega_2(E_2))=0
+        \end{equation}
+        Using the product rule and chain rule,
+        \begin{equation}
+            \partialderivative{\Omega_1(E_1)}{E_1}\Bigg|_{E_1=\overline{E_1}}\Omega_2(E_2)+\Omega_1(E_1)\partialderivative{\Omega_2(E_2)}{E_2}\Bigg|_{E_2=\overline{E_2}}\derivative{E_2}{E_1}=0
+        \end{equation}
+        Noting that $dE_2/dE_1=-1$ from equation \eqref{1}
+        \begin{equation}
+            \partialderivative{\Omega_1(E_1)}{E_1}\Bigg|_{E_1=\overline{E_1}}\Omega_2(E_2)=\Omega_1(E_1)\partialderivative{\Omega_2(E_2)}{E_2}\Bigg|_{E_2=\overline{E_2}}
+        \end{equation}
+        Taking advantage of the fact that the derivative of $\log u$ is $u'/u$
+        \begin{equation}
+            \partialderivative{\log(\Omega_1(E_1))}{E_1}\Bigg|_{E_1=\overline{E_1}}=\partialderivative{\log(\Omega_2(E_2))}{E_2}\Bigg|_{E_2=\overline{E_2}}
+        \end{equation}
+        Notice that these it is only possible to be in equilibrium when these two quantities are equal. In general, define
+        \begin{equation}
+            \beta\equiv\left(\partialderivative{\log\Omega}{E}\right)_{N,V,E=\overline{E}}
+        \end{equation} 
+        This resembles the behavior of the thermodynamic temperature and should be somewhat related. Furthermore, recall from the second law
+        \begin{equation}
+            \left(\partialderivative{S}{E}\right)_{N,V}=\frac{1}{T}
+        \end{equation}
+        And thus,
+        \begin{equation}
+            \frac{\Delta S}{\Delta \log\Omega}=\frac{1}{\beta T}=\text{constant}
+        \end{equation}
+        This constant is known as Boltzmann's constant $k$, and thus
+        \begin{equation}
+            S=k\log\Omega\label{entropy}
+        \end{equation}
+        This is the definition of entropy. Zero entropy represents when there is only one microstate, which is consistent.   
+    \end{derivation}
+
+    \item Now the other intensive quantities pressure and chemical potential can be realized with a similar approach.
+
+    \begin{derivation}
+        Recall the basic formula of thermodynamics
+        \begin{equation}
+            \dd E=T\dd S-P\dd V+\mu\dd N \label{basic:thermo}
+        \end{equation}
+        Now assume that the barrier between the two systems is movable. Then, the volumes are able to change with $V_1+V_2$ constant. From the similar derivation above
+        \begin{equation}
+            \partialderivative{\log\Omega_1}{V_1}\Bigg|_{V_1=\overline{V_1}}=\partialderivative{\log\Omega_2}{V_2}\Bigg|_{V_2=\overline{V_2}}
+        \end{equation}
+        In a similar fashion, define
+        \begin{equation}
+            \eta\equiv\left(\partialderivative{\log\Omega}{V}\right)_{N,E,V=\overline{V}}
+        \end{equation}
+        This quantity can be rewritten as 
+        \begin{equation}
+            \eta=\partialderivative{\log\Omega}{E}\derivative{E}{V}=\frac{P}{kT}\label{13}
+        \end{equation}
+        as $\partialderivative{\log\Omega}{E}$ is $\frac{1}{kT}$ from above and $dE/dV$ is the thermodynamic pressure $P$ from \eqref{basic:thermo}.
+
+        Similarly, if particles are allowed to be transfered from one system to the other then at equilibrium,
+        \begin{equation}
+            \partialderivative{\log\Omega_1}{N_1}\Bigg|_{N_1=\overline{N_1}}=\partialderivative{\log\Omega_2}{N_2}\Bigg|_{N_2=\overline{N_2}}
+        \end{equation}
+        Define
+        \begin{equation}
+            \zeta\equiv\left(\partialderivative{\log\Omega}{N}\right)_{V,E,N=\overline{N}}
+        \end{equation}
+        Again using chain rule and \eqref{basic:thermo},
+        \begin{equation}
+            \zeta=\partialderivative{\log\Omega}{E}\derivative{E}{N}=-\frac{\mu}{kT}
+        \end{equation}
+        Note that at equilibrium, $T_1=T_2$, $P_1=P_2$, and $\mu_1=\mu_2$ as expected.
+    \end{derivation}
+    \item In S.I. Units, boltzmann's constant is $k\approx1.38\times10^{-23}$J/K. We will use natural units so $k=1$.
+    \item Using basic calculus and the following lemma, the rest of thermodynamics can be derived
+    \begin{lemma}
+        If three variables are muturally related,
+        \begin{equation}
+            \left(\partialderivative{x}{y}\right)_z\left(\partialderivative{y}{z}\right)_x\left(\partialderivative{z}{x}\right)_y=-1
+        \end{equation}
+        "The proof is left as an exercise to the reader"---James Davis
+    \end{lemma}
+    The mathematics will not be shown here, but a few things should be noted
+    \begin{itemize}
+        \item Following \eqref{basic:thermo}, the intrinsic fields can be written as
+        \begin{equation}
+            P=-\left(\partialderivative{E}{V}\right)_{N,S}\:\:\:\:\:\:\mu=\left(\partialderivative{E}{N}\right)_{V,S}\:\:\:\:\:\:T=\left(\partialderivative{E}{S}\right)_{N,V}\label{intrinsic-fields}
+        \end{equation}
+        \item The Helmholtz free energy $A$, Gibbs free energy $G$ and enthalpy $H$ are given by
+        \begin{align}
+            A&=E-TS\\
+            G&=A+PV=E-TS+PV=\mu N\\
+            H&=E+PV=G+TS
+        \end{align}
+        \item Since the specific heat is $C=\derivative{Q}{T}=\frac{T\dd S}{\dd T}$, the specific heat at constant volume $C_V$ and the specific heat at constant pressure $C_P$ are
+        \begin{equation}
+            C_V=T\left(\partialderivative{S}{T}\right)_{N,V}=\left(\partialderivative{E}{T}\right)_{N,V}\label{cv}
+        \end{equation}
+        and
+        \begin{equation}
+            C_P=T\left(\partialderivative{S}{T}\right)_{N,V}=\left(\partialderivative{(E+PV)}{T}\right)_{N,P}=\left(\partialderivative{H}{T}\right)_{N,P}\label{cp}
+        \end{equation}
+    \end{itemize}
+\end{itemize}
+\subsection{Ideal Gas Law}
+\subsubsection{Simple Derivation}
+\begin{itemize}
+    \item The assumption for the ideal gas is that the probability of finding any of the particles in any region of the available volume is independent of the locations of all other particles. Then, the total number of ways in which $N$ particles can be distributed is just equal to the product of the number of ways each particle is found in a given region, which is proportional to $V$. Thus,
+    \begin{equation}
+        \Omega(N,E,V)\propto V^N\label{ideal-gas:assumption}
+    \end{equation}
+    \begin{derivation}
+        From \eqref{13}, and assuming a proportionality constant $c$ for \eqref{ideal-gas:assumption}
+        \begin{equation}
+            \frac{P}{T}=\left(\partialderivative{\log\Omega(N,E,V)}{V}\right)_{N,E}=\frac{\dd}{\dd V}(N\log V+\log c)=\frac{N}{V}\label{intermediate:ideal-gas-law}
+        \end{equation}
+        since $N=n N_A$ where $N_A$ is Avagadro's number, \eqref{intermediate:ideal-gas-law} can be rearranged as $PV=nRT$ where $R=N_A$ ($k=1$ is used). This holds for any classical system composed of noninteracting particles.
+    \end{derivation}
+\end{itemize}
+\subsubsection{More General Quantum Mechanical Derivation}
+\begin{itemize}
+    \item Now model the system as a quantum-mechanical infinite well (3D) with side-lengths $L=V^{1/3}$. The bound state energies of the system (which can be derived by solving the time-independent Schrodinger equation) are
+    \begin{equation}
+        \epsilon(n_x,n_y,n_z)=\frac{\pi^2}{2mL^2}(n_x^2+n_y^2+n_x^2);\:\:\:\:\: n_x,n_y,n_z\in\mathbb{Z}_+
+    \end{equation}
+    For a single (non-relativistic) particle at a given energy, the number of microstates is equal to the number of independent energy eigenstates with that energy, i.e.
+    \begin{equation}
+        (n_x^2+n_y^2+n_z^2)=\frac{2mV^{2/3}\epsilon}{\pi^2}=\epsilon^*\label{27}
+    \end{equation}
+    The number of solutions to \eqref{27} is also $\Omega(1,\epsilon,V)$ since it's 1 particle, $\epsilon$ energy, and $V$ volume.
+    \item This model can be extended further to suggest that $\Omega(N,E,V)$ may be equal to the number of independent solutions to
+    \begin{equation}
+        \sum_{r=1}^{3N}n_r^2=\frac{2mV^{2/3}E}{\pi^2}=E^*\label{28}
+    \end{equation}
+    for N independent (non-interacting) particles in an infinite well. The number of solutions or $\Omega(N,E,V)$ can only depend on $N$ and $E^*$. As $E^*$ is a constant multiple of $V^{2/3}E$, the $E$ and $V$ dependence of $\Omega(N,E,V)$ is $V^{2/3}E$. Therefore,
+    \begin{equation}
+        S(N,V,E)\equiv k\log\Omega(N,V,E)\equiv k\log\Omega(N,V^{2/3}E)\equiv S(N,V^{2/3}E)\label{29}
+    \end{equation}
+    \begin{derivation}
+        For a \textit{reversible adiabatic process} where $S$ and $N$ are constant, $V^{2/3}E=c$ constant due to \eqref{29}. From \eqref{intrinsic-fields}
+        \begin{equation}
+            P=-\left(\partialderivative{E}{V}\right)_{N,S}=-\frac{\dd}{\dd V}cV^{-2/3}=\frac{2}{3}(cV^{-2/3})V^{-1}=\frac{2}{3}\frac{E}{V}\label{two-third:energy-density}
+        \end{equation}
+        The pressure of a system of non-relativistic, non-interacting particles is exactly $\frac{2}{3}$ of its energy density.
+        
+        Rearranging \eqref{two-third:energy-density}, $E=\frac{2}{3}PV$. Since $c=V^{2/3}E=V^{2/3}\frac{2}{3}PV\implies PV^{5/3}=\frac{3}{2}c$ constant.
+    \end{derivation}
+    \item For a specific value of $E^*$, the problem of finding integer solutions to \eqref{28} can be reframed as finding integer lattice points on the surface of a $3N$ dimensional hypersphere with radius $\sqrt{E^*}$. This is very difficult to count. So first, consider a simper case of counting all lattice points inside the "positive part" of the volume of the hypersphere. This can be seen as the number of microstates with energy less than or equal to $E$ (with the same $V$ of course). This volume will be called $\Sigma(E^*)$
+    \item These formulas are given by mathematicians and \textbf{should not} be questioned.
+    \begin{enumerate}
+        \item The volume of a N dimensional hypersphere as a function of its radius is \begin{equation}
+            V(N,R)=\frac{\pi^{n/2}}{(n/2)!}R^N\label{sphere}
+        \end{equation}
+        \item The \textit{Sterling Approximation} states that for big $n$ \begin{equation}
+            \log (n!)\approx n\log n-n\label{sterling}
+        \end{equation}
+    \end{enumerate}
+    \item Since the number of integer lattice points contained in a continuous region is approximately equal to the volume of the region itself, using \eqref{sphere}, and resubstituting the definition of $E^*$ from \eqref{28}
+    \begin{equation}
+        \Sigma(E^*)\approx\left(\frac{1}{2}\right)^{3N}\left(\frac{\pi^{3N/2}}{(3N/2)!}{E^*}^{3N/2}\right)=\frac{V^N}{(3N/2)!}\left(\frac{mE}{2\pi}\right)^{3N/2}
+    \end{equation}
+    Note that the $\left(\frac{1}{2}\right)^{3N}$ comes from the fact that only the positive part of the hypersphere is considered. Now taking logarithm using \eqref{sterling}, \begin{equation}
+        \log\Sigma(N,V,E)\approx N\log\left[V\left(\frac{mE}{2\pi}\right)^{3/2}\right]-\frac{3}{2}N\log\left(\frac{3}{2}N\right)+\frac{3}{2}N=N\log\left[V\left(\frac{mE}{3\pi N}\right)^{3/2}\right]+\frac{3}{2}N\label{34}
+    \end{equation}
+    \item Since the simpler problem is solved, we can tackle the original problem. Now the enemy (you) imposed a small $\epsilon<<E$ on the order $\epsilon/E=\mathcal{O}(1/\sqrt{N})$ where the number of microstates $\Omega(N,V,E)$ with total energy between $E-\frac{1}{2}\epsilon$ and $E+\frac{1}{2}\epsilon$ is to be found. Using local linear approximation,
+    \begin{equation}
+        \Omega(N,V,E)\approx\partialderivative{\Sigma(N,V,E)}{E}\bigg|_{E}\epsilon=\frac{3N}{2}\frac{V^N}{(3N/2)!}\left(\frac{m}{2\pi}\right)^{3N/2}E^{3N/2-1}\epsilon=\frac{3N\epsilon}{2E}\Sigma(N,V,E)
+    \end{equation}
+    Taking the logarithm and substituting \eqref{34},\begin{equation}
+        \log\Omega(N,V,E)\approx \log\Sigma(N,V,E)+\log\left(\frac{3}{2}N\right)+\log(\frac{\epsilon}{E})
+    \end{equation}
+    \item The leading term $\log\Sigma(N,V,E)$ is $\mathcal{O}(N)$. The second term is trivially $\mathcal{O}(\log N)$. The final term is slightly more complicated. Since $\epsilon/E$ is $\mathcal{O}(N^{-1/2})$, its logarithm is likely negative. But more importantly, its magnitude is $\mathcal{O}(\log N)$. As $N$ becomes very large, only the leading term has a significant contribution; thus, \begin{equation}
+        \log\Omega\approx\log\Sigma\approx N\log\left[V\left(\frac{mE}{3\pi N}\right)^{3/2}\right]+\frac{3}{2}N
+    \end{equation}
+    \item Note two things. Firstly, the $\epsilon$ imposed by the enemy is insignificant. As long as it is similar to $\mathcal{O}(N^{-1/2})$, its contribution is insignificant relative to the other terms. Secondly, as $\log\Omega\approx\log\Sigma$ shows that the rate at which the number of microstates of the system increases as a function of energy is so great, that the microstates with energies $0$ to $E-\frac{1}{2}\epsilon$ are very few and far between compared to those with energies near $E$.
+    \item With a good approximation for $\log\Omega$, the rest of the thermodynamics can be derived.
+    \begin{derivation}
+        First of all, from the definition of entropy \eqref{entropy},
+        \begin{equation}
+            S(N,V,E)=\log\Omega=N\log\left[V\left(\frac{mE}{3\pi N}\right)^{3/2}\right]+\frac{3}{2}N
+        \end{equation}
+        Isolating the energy $E$,
+        \begin{equation}
+            E(S,N,V)=\frac{3\pi N}{mV^{2/3}}\exp(\frac{2S}{3N}-1)
+        \end{equation}
+        From \eqref{intrinsic-fields}, 
+        \begin{equation}
+            \left(\partialderivative{S}{E}\right)_{N,V}=\frac{1}{T}=\frac{3}{2}\frac{N}{E}
+        \end{equation}
+        \begin{equation}
+            E=\frac{3}{2}NT=\frac{3}{2}nRT\label{41}
+        \end{equation}
+        Using \eqref{cv}, the specific heat at constant volume is
+        \begin{equation}
+            C_V=\left(\partialderivative{E}{T}\right)_{N,V}=\frac{3}{2}nR
+        \end{equation}
+        From \eqref{two-third:energy-density}, 
+        \begin{equation}
+            P=\frac{2}{3}\frac{E}{V}=\frac{nRT}{V}\implies PV=nRT
+        \end{equation}
+        From \eqref{cp}, the specific heat at constant pressure is
+        \begin{equation}
+            C_P=\left(\partialderivative{H}{T}\right)_{N,V}=C_V+\frac{\dd}{\dd T}(PV)=\frac{3}{2}nR+nR=\frac{5}{2}nR
+        \end{equation}
+        Then the ratio between the two specific heats is
+        \begin{equation}
+            \gamma\equiv\frac{C_P}{C_V}=\frac{5}{3}
+        \end{equation}
+    \end{derivation}
+    \item Suppose the ideal gas undergoes an \textit{isothermal change} with constant $T$ and $N$. From \eqref{41}, the energy $E$ remains constant. Using logarithm laws, the entropy can be rewritten as
+    \begin{equation}
+        S(N,V,E)=N\log V+N\log\left[\left(\frac{mE}{3\pi N}\right)^{3/2}\right]+\frac{3}{2}N
+    \end{equation}
+    Since $T,N,E,m$ are all constants, the only term that changes is the leading term. Thus,
+    \begin{equation}
+        \Delta S=N\log\left(\frac{V_f}{V_i}\right)
+    \end{equation} 
+\end{itemize}
+\end{document}
