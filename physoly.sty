@@ -125,7 +125,7 @@
     % add a `\thetcbcounter` to the end if you want to keep track of numberings.
 }
 
-\newtcolorbox[auto counter,number within=section]{sol}{
+\newtcolorbox[auto counter]{sol}[1][]{
     simple,
-    title={Solution},
+    title={Solution \thetcbcounter \ ({#1})},
 }

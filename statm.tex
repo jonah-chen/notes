@@ -42,7 +42,7 @@ Natural units will be used hahahaha $\hbar=c=k_B=1$
         \end{equation}
         Using the product rule and chain rule,
         \begin{equation}
-            \partialderivative{\Omega_1(E_1)}{E_1}\Bigg|_{E_1=\overline{E_1}}\Omega_2(E_2)+\Omega_1(E_1)\partialderivative{\Omega_2(E_2)}{E_2}\Bigg|_{E_2=\overline{E_2}}\derivative{E_2}{E_1}=0
+            \partialderivative{\Omega_1(E_1)}{E_1}\Bigg|_{E_1=\overline{E_1}}\Omega_2(E_2)+\Omega_1(E_1)\partialderivative{\Omega_2(E_2)}{E_2}\Bigg|_{E_2=\overline{E_2}}\derivative{E_2}{E_1}=0\label{equilibrium-conducting}
         \end{equation}
         Noting that $dE_2/dE_1=-1$ from equation \eqref{1}
         \begin{equation}
@@ -50,7 +50,7 @@ Natural units will be used hahahaha $\hbar=c=k_B=1$
         \end{equation}
         Taking advantage of the fact that the derivative of $\log u$ is $u'/u$
         \begin{equation}
-            \partialderivative{\log(\Omega_1(E_1))}{E_1}\Bigg|_{E_1=\overline{E_1}}=\partialderivative{\log(\Omega_2(E_2))}{E_2}\Bigg|_{E_2=\overline{E_2}}
+            \partialderivative{\log(\Omega_1(E_1))}{E_1}\Bigg|_{E_1=\overline{E_1}}=\partialderivative{\log(\Omega_2(E_2))}{E_2}\Bigg|_{E_2=\overline{E_2}}\label{equilibrium-conducting-2}
         \end{equation}
         Notice that these it is only possible to be in equilibrium when these two quantities are equal. In general, define
         \begin{equation}
@@ -133,7 +133,7 @@ Natural units will be used hahahaha $\hbar=c=k_B=1$
         \end{equation}
         and
         \begin{equation}
-            C_P=T\left(\partialderivative{S}{T}\right)_{N,V}=\left(\partialderivative{(E+PV)}{T}\right)_{N,P}=\left(\partialderivative{H}{T}\right)_{N,P}\label{cp}
+            C_P=T\left(\partialderivative{S}{T}\right)_{N,P}=\left(\partialderivative{(E+PV)}{T}\right)_{N,P}=\left(\partialderivative{H}{T}\right)_{N,P}\label{cp}
         \end{equation}
     \end{itemize}
 \end{itemize}
@@ -192,7 +192,7 @@ Natural units will be used hahahaha $\hbar=c=k_B=1$
     \end{enumerate}
     \item Since the number of integer lattice points contained in a continuous region is approximately equal to the volume of the region itself, using \eqref{sphere}, and resubstituting the definition of $E^*$ from \eqref{28}
     \begin{equation}
-        \Sigma(E^*)\approx\left(\frac{1}{2}\right)^{3N}\left(\frac{\pi^{3N/2}}{(3N/2)!}{E^*}^{3N/2}\right)=\frac{V^N}{(3N/2)!}\left(\frac{mE}{2\pi}\right)^{3N/2}
+        \Sigma(E^*)\approx\left(\frac{1}{2}\right)^{3N}\left(\frac{\pi^{3N/2}}{(3N/2)!}{E^*}^{3N/2}\right)=\frac{V^N}{(3N/2)!}\left(\frac{mE}{2\pi}\right)^{3N/2}\label{33}
     \end{equation}
     Note that the $\left(\frac{1}{2}\right)^{3N}$ comes from the fact that only the positive part of the hypersphere is considered. Now taking logarithm using \eqref{sterling}, \begin{equation}
         \log\Sigma(N,V,E)\approx N\log\left[V\left(\frac{mE}{2\pi}\right)^{3/2}\right]-\frac{3}{2}N\log\left(\frac{3}{2}N\right)+\frac{3}{2}N=N\log\left[V\left(\frac{mE}{3\pi N}\right)^{3/2}\right]+\frac{3}{2}N\label{34}
@@ -205,14 +205,14 @@ Natural units will be used hahahaha $\hbar=c=k_B=1$
         \log\Omega(N,V,E)\approx \log\Sigma(N,V,E)+\log\left(\frac{3}{2}N\right)+\log(\frac{\epsilon}{E})
     \end{equation}
     \item The leading term $\log\Sigma(N,V,E)$ is $\mathcal{O}(N)$. The second term is trivially $\mathcal{O}(\log N)$. The final term is slightly more complicated. Since $\epsilon/E$ is $\mathcal{O}(N^{-1/2})$, its logarithm is likely negative. But more importantly, its magnitude is $\mathcal{O}(\log N)$. As $N$ becomes very large, only the leading term has a significant contribution; thus, \begin{equation}
-        \log\Omega\approx\log\Sigma\approx N\log\left[V\left(\frac{mE}{3\pi N}\right)^{3/2}\right]+\frac{3}{2}N
+        \log\Omega\approx\log\Sigma\approx N\log\left[V\left(\frac{mE}{3\pi N}\right)^{3/2}\right]+\frac{3}{2}N\label{37}
     \end{equation}
     \item Note two things. Firstly, the $\epsilon$ imposed by the enemy is insignificant. As long as it is similar to $\mathcal{O}(N^{-1/2})$, its contribution is insignificant relative to the other terms. Secondly, as $\log\Omega\approx\log\Sigma$ shows that the rate at which the number of microstates of the system increases as a function of energy is so great, that the microstates with energies $0$ to $E-\frac{1}{2}\epsilon$ are very few and far between compared to those with energies near $E$.
     \item With a good approximation for $\log\Omega$, the rest of the thermodynamics can be derived.
     \begin{derivation}
         First of all, from the definition of entropy \eqref{entropy},
         \begin{equation}
-            S(N,V,E)=\log\Omega=N\log\left[V\left(\frac{mE}{3\pi N}\right)^{3/2}\right]+\frac{3}{2}N
+            S(N,V,E)=\log\Omega=N\log\left[V\left(\frac{mE}{3\pi N}\right)^{3/2}\right]+\frac{3}{2}N\label{wrong:entropy}
         \end{equation}
         Isolating the energy $E$,
         \begin{equation}
@@ -227,7 +227,7 @@ Natural units will be used hahahaha $\hbar=c=k_B=1$
         \end{equation}
         Using \eqref{cv}, the specific heat at constant volume is
         \begin{equation}
-            C_V=\left(\partialderivative{E}{T}\right)_{N,V}=\frac{3}{2}nR
+            C_V=\left(\partialderivative{E}{T}\right)_{N,V}=\frac{3}{2}nR\label{ideal-gas:cv}
         \end{equation}
         From \eqref{two-third:energy-density}, 
         \begin{equation}
@@ -235,7 +235,7 @@ Natural units will be used hahahaha $\hbar=c=k_B=1$
         \end{equation}
         From \eqref{cp}, the specific heat at constant pressure is
         \begin{equation}
-            C_P=\left(\partialderivative{H}{T}\right)_{N,V}=C_V+\frac{\dd}{\dd T}(PV)=\frac{3}{2}nR+nR=\frac{5}{2}nR
+            C_P=\left(\partialderivative{H}{T}\right)_{N,V}=C_V+\frac{\dd}{\dd T}(PV)=\frac{3}{2}nR+nR=\frac{5}{2}nR\label{ideak-gas:cp}
         \end{equation}
         Then the ratio between the two specific heats is
         \begin{equation}
@@ -249,6 +249,147 @@ Natural units will be used hahahaha $\hbar=c=k_B=1$
     Since $T,N,E,m$ are all constants, the only term that changes is the leading term. Thus,
     \begin{equation}
         \Delta S=N\log\left(\frac{V_f}{V_i}\right)
-    \end{equation} 
+    \end{equation}
 \end{itemize}
+\section{Gibb's Paradox and Correction}
+\subsection{Entropy of Mixing}
+\begin{itemize}
+    \item Mixing two ideal gasses at the same temperature each with entropy
+    \begin{equation}
+        S_i=N_i\log V_i+\frac{3}{2}N_i\left[1+\log\left(\frac{m_iT}{2\pi}\right)\right]\:\:\:\:\:\:\:\:i=1,2
+    \end{equation}
+    After the mixing, the change in entropy (known as the \textit{entropy of mixing}) would be
+    \begin{equation}
+        \begin{aligned}
+            \Delta S&=\sum_{i=1}^2N_i\log (V_1+V_2)+\frac{3}{2}N_i\left[1+\log\left(\frac{m_iT}{2\pi}\right)\right]-\sum_{i=1}^2N_i\log V_i+\frac{3}{2}N_i\left[1+\log\left(\frac{m_iT}{2\pi}\right)\right]\\
+            &=N_1\log\left(\frac{V_1+V_2}{V_1}\right)+N_2\log\left(\frac{V_1+V_2}{V_2}\right)
+        \end{aligned}
+    \end{equation}
+    \item For the case where the number densities of the two ideal gases are different, mixing should be an irreversible process. This is indeed true as $\Delta S>0$.
+    \item If the number densities of the two ideal gases are equal, mixing should be reversible as the partition can be reinserted and nothing should have change. Thus, it is expected that $\Delta S=0$.
+    However, if $V=\alpha N$,
+    \begin{equation}
+        \Delta S=N_1\log\left(\frac{N_1+N_2}{N_1}\right)+N_2\log\left(\frac{N_1+N_2}{N_2}\right)>0\label{paradox}
+    \end{equation}
+    This suggests that there must be an omission that has occured.
+    \item Approximating $\log (n!)\approx n\log n-n\approx n log n$ for big $n$, \eqref{paradox} can be simplified to
+    \begin{equation}
+        \Delta S=S_f-S_1-S_2\approx\log [(N_1+N_2)!]-\log(N_1!)-\log(N_2!)
+    \end{equation}
+    From the simplified expression, it seems like executing $S\:-=\:\log(N!);$ would resolve this issue (challenge, sorry praxis). This is the solution recommended by Gibbs.
+    \item With this modification,
+    \begin{align}
+        S(N,V,E)&=N\log\left[\frac{V}{N}\left(\frac{mE}{3\pi N}\right)^{3/2}\right]+\frac{5}{2}N\label{ideal-gas:entropy}\\ 
+        &=N\log\left(\frac{V}{N}\right)+\frac{3}{2}N\left[\frac{5}{3}+\log(\frac{mT}{2\pi})\right]
+    \end{align}
+    \item This also resolves another issue. The entropy of the ideal gas derived in \eqref{wrong:entropy} does not behave like an extensive property of the system. If all intensive variables are held constant and the size of the system is doubled, the entropy should also double. 
+    \begin{equation}
+        \begin{aligned}
+            S(2N,2V,2E)-2S(N,V,E)&=\left[(2N)\log\left[(2V)\left(\frac{m(2E)}{3\pi(2N)}\right)^{3/2}\right]+\frac{3}{2}(2N)\right]-\left[2N\log\left[V\left(\frac{mE}{3\pi N}\right)^{3/2}\right]+3N\right]
+            \\&=2N\log 2
+        \end{aligned}
+    \end{equation}
+    With the modification, entropy described by \eqref{ideal-gas:entropy} does behave like an extensive field!
+    \begin{equation}
+        S(\alpha N,\alpha V, \alpha E)=\alpha S(N,V,E)
+    \end{equation}
+    \item The corrected entropy of mixing would be
+    \begin{equation}
+        \Delta S=(N_1+N_2)\log\left(\frac{V_1+V_2}{N_1+N_2}\right)-N_1\log\left(\frac{V_1}{N_1}\right)-N_2\log\left(\frac{V_2}{N_2}\right)
+    \end{equation}
+    Here when $N_1/V_1=N_2/V_2$, $\Delta S$ is indeed zero!
+\end{itemize}
+\subsection{More on the Ideal Gas}
+\begin{itemize}
+    \item The quantities related to the chemical potential can now be derived as the correction is nessecary to derive the correct result. 
+    \begin{derivation}
+        With the correction, the energy must be rederived. Firstly, isolating for the energy,
+        \begin{equation}
+            E(S,N,V)=\frac{3\pi N^{5/3}}{mV^{2/3}}\exp\left(\frac{2S}{3N}-\frac{5}{2}\right)
+        \end{equation}
+        The chemical potential can also be derived
+        \begin{equation}
+            \mu=\left(\partialderivative{E}{N}\right)_{V,S}=E\left(\frac{5}{3N}-\frac{2S}{3N^2}\right)
+        \end{equation}
+        From equations \eqref{two-third:energy-density} and \eqref{41},
+        \begin{equation}
+            \mu=\frac{1}{N}\left(E+\frac{2}{3}E-\frac{2S}{3N}\right)=\frac{1}{N}(E+PV-TS)\equiv\frac{G}{N}
+        \end{equation}
+        In terms of the variables $N,V,T$, the chemical potential is expressed as
+        \begin{equation}
+            \mu(N,V,T)=T\log\left[\frac{N}{V}\left(\frac{2\pi}{mT}\right)^{3/2}\right]
+        \end{equation}
+        The Helmholtz free neergy is 
+        \begin{equation}
+            A=E-TS=G-PV=N(\mu-T)=NT\left[\log\left[\frac{N}{V}\left(\frac{2\pi}{mT}\right)^{3/2}\right]-1\right]
+        \end{equation}
+    \end{derivation}
+    \item Note that the Helmholtz free energy is an extensive property whereas the chemical potential is an intensive property.
+\end{itemize}
+\subsection{Indistinguishable Particles}
+\begin{itemize}
+    \item The reason that the original derivation of the entropy of the system of $N$ non-interacting particles requires the correction is because the derivation assumes that the particles are distinguishable. 
+    \item In reality, the most particles are identical. This means that for 2 particles, the state with $\ket{1}\otimes\ket{2}$ and $\ket{2}\otimes\ket{1}$ are indistinguishable and only considered as 1 microstate. Therefore, the original derivation overcounted the number of microstates (by $N!$). 
+    \item The correct way to represent a system is to represent its particles distribution over energies by numbers.
+    \begin{equation}
+        E=\sum_{i=0}^\infty n_i\epsilon_i
+    \end{equation}
+    where $n_0,n_1,n_2\dots$ represent the number of particles in the system with energy $\epsilon_0,\epsilon_1,\epsilon_2\dots$ respectively.
+    \item The total number of microstates for a system of indistinguishable particles is then
+    \begin{equation}
+        \Omega=\frac{N!}{\prod n_i!}
+    \end{equation}
+\end{itemize}
+\section{Chapter 1 Problems}
+\begin{sol}[1]
+    \begin{enumerate}[label=\textbf{(\alph*)}]
+        \item Take the taylor expansion of $\log\Omega^0(E^0,E_1)=\log\Omega_1(E_1)+\log\Omega_2(E_2)$ at equilibrium energy $E_1=\overline{E_1}$.
+        \begin{equation}
+            \begin{aligned}
+                \log\Omega^0(E_1)&=\log\Omega_1(\overline{E_1})+\log\Omega_2(\overline{E_2})+\left(\partialderivative{\log\Omega_1}{E_1}\bigg|_{E_1=\overline{E_1}}+\partialderivative{\log\Omega_2}{E_2}\bigg|_{E_2=\overline{E_2}}\derivative{E_2}{E_1}\right)(E_1-\overline{E_1})\\
+                &+\frac{1}{2}\left(\partialderivative{^2\log\Omega_1}{E_1^2}\bigg|_{E_1=\overline{E_1}}+\partialderivative{^2\log\Omega_2}{E_2^2}\bigg|_{E_2=\overline{E_2}}\left(\derivative{E_2}{E_1}\right)^2+\partialderivative{\log\Omega_2}{E_2}\bigg|_{E_2=\overline{E_2}}\derivative{^2E_2}{E_1^2}\right)(E_1-\overline{E_1})^2\\
+                &+\mathcal{O}\left[(E_1-\overline{E_1})^3\right]
+            \end{aligned}
+        \end{equation}
+        The linear term of the series is zero as the taylor expansion is taken at equilibrium energies (see \eqref{equilibrium-conducting} and \eqref{equilibrium-conducting-2}). In the quadratic term, the third contribution is also zero as the 2nd derivative of $E_2$ is zero. For the remaining part of the quadratic term,
+        \begin{equation}
+            \partialderivative{^2\log\Omega}{E^2}\bigg|_{E=\overline{E}}=\partialderivative{}{E}\frac{1}{T}=\partialderivative{T}{E}\partialderivative{}{T}\frac{1}{T}=-\frac{1}{C_VT^2}
+        \end{equation}
+        Define
+        \begin{equation}
+            \frac{1}{a^2}\equiv\frac{1}{C_{V1}T^2}+\frac{1}{C_{V2}T^2}\label{rms:1-1}
+        \end{equation}
+        Simplifying,
+        \begin{equation}
+            \log\Omega^0(E_1)=\log\Omega^0(\overline{E_1})-\frac{(E_1-\overline E_1)^2}{2a^2}+\mathcal{O}\left[(E_1-\overline{E_1})^3\right]\label{gaussian:1-1}
+        \end{equation}
+        The $\mathcal{O}\left[(E_1-\overline{E_1})^3\right]$ term can be neglected since when the systems become large, the temperature becomes less dependent on the energy.
+        Exponentiating both sides of \eqref{gaussian:1-1},
+        \begin{equation}
+            \Omega^0(E_1)=\Omega^0(\overline{E_1})\exp\left(-\frac{(E_1-\overline{E_1})^2}{2a^2}\right)
+        \end{equation}
+        Thus, the root-mean-square deviation of $E_1$ is $a$ in \eqref{rms:1-1}.
+        \item For the ideal gas, $C_V=\frac{3}{2}N$ from \eqref{ideal-gas:cv}. Thus, 
+        \begin{align}
+            \frac{1}{a^2}&=\frac{1}{N_1T^2}+\frac{1}{N_2T^2}\\
+            a&=T\sqrt{\frac{N_1+N_2}{N_1N_2}}
+        \end{align}
+        Where $T$ is the equilibrium temperature.
+    \end{enumerate}
+\end{sol}
+\begin{sol}[1]
+    The total entropy $S$ and number of microstates and $\Omega$ are that for $n$ systems with entropies $S_1,S_2\dots S_n$ and number of microstates $\Omega_1,\Omega_2\dots\Omega_n$,
+    \begin{align}
+        S&=\sum_{j=1}^n S_i\:\:\:\:\:\:\:\:\Omega=\prod_{j=1}^n\Omega_i\\
+        S&=f(\Omega)=\sum_{j=1}^n f(\Omega_i)
+    \end{align}
+    Combining the definitions,
+    \begin{equation}
+        f\left(\prod_{j=1}^n\Omega_i\right)=\sum_{j=1}^nf(\Omega_i)
+    \end{equation}
+    It is shown by Dieudonné, Jean in \textit{Foundations of Modern Analysis} (1969) pp. 84 that the only functions satisfying this definition are logarithmic functions.
+\end{sol}
+\begin{sol}[1]
+    The total 
+\end{sol}
 \end{document}

@@ -5,6 +5,7 @@
 \usepackage{physics}
 \usepackage[american]{circuitikz}
 \usepackage{physoly}
+\usepackage{siunitx}
 
 \begin{document}
 \section{Lecture 1}
@@ -74,7 +75,7 @@
 \end{enumerate}        
 
 \section{Lecture 2}
-\begin{example}[2]
+\begin{example}[1]
     Identify the devices that generate power in the circuit below and find the unknowns in the table.
     \begin{center}
         \begin{circuitikz}
@@ -118,7 +119,7 @@
     \end{align}
     Find the total energy transfered to this device after $t=0$.
 \end{example}
-\begin{sol}
+\begin{sol}[2]
     PSC holds. Thus,
     \begin{align}
         p(t)&=v(t)i(t)\\
@@ -313,7 +314,7 @@
 \begin{example}[1]
     Identify the loops in the circuit above circuit
 \end{example}
-\begin{sol}
+\begin{sol}[1]
     Arrows are too hard to draw
     \begin{center}
         \begin{circuitikz}
@@ -346,16 +347,246 @@
         i_2+i_3=i_1+i_4
     \end{equation}
     which is equivilent to \eqref{ex1:kcl}.
-    \begin{example}
+    \begin{example}[2]
         Find $I_1$ in the following circuit
         \begin{center}
             \begin{circuitikz}
                 \draw (0,-2)to[short,i=$2\text{A}$,-*](1,0)to[short,i=$3\text{A}$](0,2);
+                \draw (3,-2)to[short,i=\SI{1}{A}](2,0)to(1,0);
+                \draw (2,0)to(4,0)to[short,i=$I_1$](5,2);
+                \draw (4,0)to(5,0)to[short,i=\SI{1}{A}](6,2);
+                \draw (6,-2)to[short,i=\SI{4}{A}](5,0);
             \end{circuitikz}
         \end{center}
     \end{example}
 \end{enumerate}
+\section{Lecture 6}
+\subsection{Circuit Analysis Laws (cont.)}
+\begin{enumerate}
+    \item \textit{Kirchoff's Voltage Law (KVL)}: The algebraic sum of the voltages around any loop is zero.
+    \begin{enumerate}
+        \item If the loop direction enters a voltage source from positive voltage polarity, voltage used for KVL is positive.
+        \item Else, the voltage used for KVL is negative.
+    \end{enumerate}
+    \begin{center}
+        \begin{circuitikz}
+            \draw (0,4)to[V=$v_1$](0,0)to(6,0)to[V=$v_3$](6,4);
+            \draw (0,4)to[V=$v_2$](6,4);
+        \end{circuitikz}
+    \end{center}
+    For the same loop, the starting point and direction of performing the analysis is irrelevent. i.e. starting from the top left in the clockwise direction, KVL requires
+    \begin{equation}
+        +v_2-v_3-v_1=0
+    \end{equation}
+    Starting from the top right in the anti-clockwise direction,
+    \begin{equation}
+        -v_2+v_1+v_3=0
+    \end{equation}
+    When writing KVL for circuits with resistors, it can be combined with Ohm's law in the following fashion. Note that this is independent of voltage polarity defined for the resistor.
+    \begin{enumerate}
+        \item When the current direction entering a resistor is the same as the loop direction, the voltage of the resistor for KVL is $+iR$
+        \item When the current direction entering a resistor is opposing the loop direction, the voltage of the resistor for KVL is $-iR$ 
+    \end{enumerate}
+    \begin{example}[1]
+        Use KVL and Ohm's law to find the current of the resistor.
+        \begin{center}
+            \begin{circuitikz}
+                \draw (0,3)to[V=\SI{10}{V}](0,0)to(3,0);
+                \draw (0,3)to[short,i=$i_1$](3,3)to[R=\SI{2}{\ohm},v=$v_1$](3,0);
+            \end{circuitikz}
+        \end{center}
+    \end{example}
+    \begin{sol}[1]
+        Applying KVL in the clockwise direction,
+        \begin{equation}
+            v_1-10=0\implies v_1=\SI{10}{V}
+        \end{equation}
+        Using Ohm's law. Since current enters the + polarity, PSC holds. Thus,
+        \begin{equation}
+            v_1=2i_1\implies 10=2i_1\implies i_1=\SI{5}{A}
+        \end{equation}
+        Using the "shortcut", again applying KVL in a clockwise direction. Since the current direction is the same as the loop direction,
+        \begin{equation}
+            +2i_1-10=0\implies i_1=\SI{5}{A}
+        \end{equation}
+    \end{sol}
+\end{enumerate}
+\subsection{Circuit Analysis Tips}
+If a circuit \textbf{does not} include a voltage-dependent current source or a current-dependent voltage source, you may use any of the following units systems to perform your analysis. 
+\begin{enumerate}
+    \item V, A, $\Omega$, W
+    \item V, mA, k$\Omega$, mW
+    \item kV, mA, $\Omega$, W
+    \item Other consistent units can be used but are not as common.
+\end{enumerate}
+It is simpler to use a consistent system of units to analyze the circuits. Thus, units consistent with the voltage-dependent current source or a current-dependent voltage source should be used.
+\subsection{Some Examples}
+\begin{example}[2]
+    Find the power of the voltage source.
+    \begin{center}
+        \begin{circuitikz}
+            \draw (0,4)node[left]{N}
+            to[V=\SI{30}{V},i=$i_s$,*-](0,0)
+            to(6,0)
+            to[R=\SI{50}{\ohm}](6,4)
+            to[R=\SI{100}{\ohm},i=$i_2$](0,4)
+            to[R=\SI{300}{\ohm},i=$i_1$](6,0);
+        \end{circuitikz}
+    \end{center}
+\end{example}
+\begin{sol}[2]
+    Since PSC does not hold for the voltage source,
+    \begin{equation}
+        P=-30i_s
+    \end{equation}
+    KVL for the bottom left loop (clockwise)
+    \begin{equation}
+        -30+300i_1=0\implies i_1=\SI{0.1}{A}
+    \end{equation}
+    KVL for the outer loop (clockwise)
+    \begin{equation}
+        -30-100i_2-50i_2=0\implies i_2=\SI{-0.2}{A}
+    \end{equation}
+    KCL at node N
+    \begin{equation}
+        i_s+i_2=i_1\implies i_s=i_1-i_2=0.1-(-0.2)=\SI{0.3}{A}
+    \end{equation}
+    Find the power
+    \begin{equation}
+        P=-30i_s=-30(0.3)=\SI{-9}{W}
+    \end{equation}
+    Since $P<0$, power is generated.
+\end{sol}
+\begin{example}[3]
+    Find the power of each source.
+    \begin{center}
+        \begin{circuitikz}
+            \draw (0,4)
+            to[V=\SI{100}{V}](0,0)
+            to(8,0)
+            to[I=\SI{1}{mA},v=$v_y$](8,4)
+            to[R=\SI{22}{\kilo\ohm}](4,4);
+            \draw (0,4)
+            to[short,i=$i_x$,-*](4,4)node[above]{N}
+            to[R=\SI{33}{k\ohm},i=$i_z$](4,0);
+        \end{circuitikz}
+    \end{center}
+\end{example}
+\begin{sol}[3]
+    KVL for the left loop (clockwise)
+    \begin{equation}
+        -100+33i_z=0\implies i_z=\SI{3}{mA}
+    \end{equation}
+    KCL for N, $i_x$ and \SI{1}{mA} are entering N and $i_z=\SI{3}{mA}$ is leaving N.
+    \begin{equation}
+        i_x+1=i_z\implies i_x=\SI{2}{mA}
+    \end{equation}
+    For the voltage source, PSC does not hold. Thus,
+    \begin{equation}
+        P=-vi=-100\times 2=\SI{-200}{mW}
+    \end{equation}
+    KVL for outer loop (clockwise)
+    \begin{equation}
+        -100-(1\times 22)+v_y=0\implies v_y=\SI{122}{V}
+    \end{equation}
+    For the current source, PSC does not hold. Thus,
+    \begin{equation}
+        P=-vi=-122\times 1=\SI{-122}{mW}
+    \end{equation}
+\end{sol}
+\begin{example}[4]
+    Find the power of each source.
+    \begin{center}
+        \begin{circuitikz}
+            \draw (0,0)
+            to[I=\SI{2}{A},v=$v_x$](0,3)
+            to[R=\SI{100}{\ohm},i=$i_1$,-*](4,3)node[above]{$N_3$}
+            to[R=\SI{100}{\ohm},i=$i_2$](8,3)
+            to[I=\SI{5}{A}](8,0)
+            to(0,0);
+            \draw (4,0)to[R=\SI{50}{\ohm},i=$i_3$,*-](4,3);
+            \draw (0,3)node[left]{$N_1$}
+            to(0,5)
+            to[I=\SI{3}{A}](8,5)
+            to[short,-*](8,3)node[right]{$N_2$};
+        \end{circuitikz}
+    \end{center}
+\end{example}
+\begin{sol}[4]
+    KCL at $N_1$
+    \begin{equation}
+        2=3+i_1\implies i_1=\SI{-1}{A}
+    \end{equation}
+    KCL at $N_2$
+    \begin{equation}
+        3+i_2=5\implies i_2=\SI{2}{A}
+    \end{equation}
+    KCL at $N_2$
+    \begin{equation}
+        i_1+i_3=i_2\implies i_3=\SI{3}{A}
+    \end{equation}
+    KVL for the bottom left loop (clockwise)
+    \begin{equation}
+        -v_x+100i_1-50i_3=0\implies v_x=100\times -1-50\times 3=\SI{-250}{V}
+    \end{equation}
+    The rest is left as an exercise.
+\end{sol}
+\begin{example}[5]
+    \begin{center}
+        \begin{circuitikz}
+            \draw (3,0)
+            to(0,0)
+            to[I=\SI{2}{mA}](0,4)
+            to (3,4)
+            to[R=\SI{4.7}{k\ohm},v=$v_x$](3,0)
+            to[short,i=$i_2$] (7,0)
+            to(10,0);
+            \draw (10,4)to[R=\SI{3}{k\ohm},i=$i_1$](10,0);
+        \end{circuitikz}
+    \end{center}
+\end{example}
+\begin{example}[6]
+    \begin{center}
+        \begin{circuitikz}
+            \draw(0,3)
+            to[V=\SI{2}{V}](0,0)
+            to (2,0);
+            \draw (2,3)
+            to[R=\SI{6}{\ohm},v=$v_2$,i=$i_2$](2,0)
+            to(9,0)
+            to[R=\SI{5}{\ohm},v=$v_1$,i=$i_1$](9,3)
+            to(7,3);
+            \draw (0,3)
+            to(2,3)
+            to[cI=$5v_2$](7,3)
+            to[cV=$5i_2$,i=$i_x$](7,0);
+        \end{circuitikz}
+    \end{center}
+\end{example}
+\begin{sol}[6]
+    Use KVL on the left most loop (clockwise).
+    \begin{equation}
+        -2+6i_2=0\implies i_2=\SI{0.33}{A}
+    \end{equation}
+    Using Ohm's law on the resistor, PSC holds thus
+    \begin{equation}
+        v_2=6i_2=\SI{2}{V}
+    \end{equation}
+    The current provided by the dependent current source would be \SI{10}{A} and the voltage provided by the dependent voltage source would be \SI{1.67}{V}. 
 
-
-
+    Using KVL on the right most loop (anti-clockwise),
+    \begin{equation}
+        v_1+5i_2=0\implies v_1=-5i_2=\SI{-1.67}{V}
+    \end{equation}
+    Using Ohm's law on this resistor to find $i_1$. As PSC holds,
+    \begin{equation}
+        i_1=v_1/5=\SI{0.33}{A}
+    \end{equation}
+    Finally using KCL at the junction,
+    \begin{equation}
+        i_x+i_1+5v_2=0\implies i_x=\SI{-10.33}{A}
+    \end{equation}
+    
+    
+\end{sol}
 \end{document}
