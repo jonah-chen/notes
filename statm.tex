@@ -341,7 +341,7 @@ Natural units will be used hahahaha $\hbar=c=k_B=1$
     \end{equation}
 \end{itemize}
 \section{Chapter 1 Problems}
-\begin{sol}[1]
+\begin{sol}[1.1]
     \begin{enumerate}[label=\textbf{(\alph*)}]
         \item Take the taylor expansion of $\log\Omega^0(E^0,E_1)=\log\Omega_1(E_1)+\log\Omega_2(E_2)$ at equilibrium energy $E_1=\overline{E_1}$.
         \begin{equation}
@@ -377,7 +377,7 @@ Natural units will be used hahahaha $\hbar=c=k_B=1$
         Where $T$ is the equilibrium temperature.
     \end{enumerate}
 \end{sol}
-\begin{sol}[1]
+\begin{sol}[1.2]
     The total entropy $S$ and number of microstates and $\Omega$ are that for $n$ systems with entropies $S_1,S_2\dots S_n$ and number of microstates $\Omega_1,\Omega_2\dots\Omega_n$,
     \begin{align}
         S&=\sum_{j=1}^n S_i\:\:\:\:\:\:\:\:\Omega=\prod_{j=1}^n\Omega_i\\
@@ -389,7 +389,52 @@ Natural units will be used hahahaha $\hbar=c=k_B=1$
     \end{equation}
     It is shown by Dieudonné, Jean in \textit{Foundations of Modern Analysis} (1969) pp. 84 that the only functions satisfying this definition are logarithmic functions.
 \end{sol}
-\begin{sol}[1]
-    The total 
+\begin{sol}[1.7]
+    Remember $\hbar=c=1$. We can rearrange the equation
+    \begin{equation}
+        n_x^2+n_y^2+n_z^2=\frac{L^2}{2\pi^2}\epsilon^2
+    \end{equation}
+    \begin{theorem}
+        For $N>1$ random variables $\{r_1,r_2\dots r_N\}$ that has a uniform distribution within the interval $[0,M)$, both
+        \begin{equation}
+            \frac{3}{4}N<\left\langle\frac{(\sum_{n=1}^Nr_n)^2}{\sum_{n=1}^Nr_n^2}\right\rangle<N
+        \end{equation}
+        \begin{equation}
+            \lim_{N\to\infty}\frac{1}{N}\left\langle\frac{(\sum_{n=1}^Nr_n)^2}{\sum_{n=1}^Nr_n^2}\right\rangle=\frac{3}{4}
+        \end{equation}
+    \end{theorem}
+    \begin{proof}
+        Prof. Davis will have a proof.
+    \end{proof}
+    Let $N>>1$ particles, there will be $3N$ quantum numbers whose squares add up to some number. From the theorem, 
+    \begin{equation}
+        \sum_{i=1}^{3N}n_i^2=\frac{L^2}{2\pi^2}\sum_{i=1}^{3N}\epsilon_i^2=\frac{L^2}{2\pi^2}\frac{4}{3N}\left(\sum_{i=1}^{3N}\epsilon_i\right)^2=\frac{2L^2E^2}{3\pi^2N}\equiv R^2
+    \end{equation}
+    As it is shown in \eqref{34}, the number of solutions that is on the surface on the sphere (assuming $\epsilon/E=\mathcal{O}(1/\sqrt{N})$) is approximately equal to the volume of positive part the $3N$ dimensional sphere of radius $R$. Assuming the particles are distinguishable, this is also the number of microstates of the system.
+    \begin{align}
+        \Omega(N,V,E)&\approx \left(\frac{1}{2}\right)^{3N}\frac{1}{(3N/2)!}\frac{V^{N/2}E^{3N/2}}{N^{3N/4}}\\
+        S=\log \Omega&\approx \frac{N}{2}\log V+\frac{3N}{2}\log\frac{E}{4}-\left[\frac{3N}{2}\log\left(\frac{3N}{2}\right)-\frac{3N}{2}\right]-\frac{3N}{2}\log \sqrt N\\
+        &=\frac{N}{2}\log V+\frac{3N}{2}\left[1+\log\left(\frac{E}{6N^{3/2}}\right)\right]
+    \end{align}
+    The temperature is
+    \begin{equation}
+        \left(\partialderivative{S}{E}\right)_{N,V}=\frac{1}{T}=\frac{3N}{2E}
+    \end{equation}
+    Isolating $E$ yields
+    \begin{equation}
+        E=\frac{6N^{3/2}}{V^{1/3}}\exp\left(\frac{2S}{3N}-1\right)=\frac{3}{2}NT
+    \end{equation}
+    The pressure is 
+    \begin{equation}
+        \left(\partialderivative{S}{V}\right)_{N,E}=\frac{N}{2V}=\frac{P}{T}
+    \end{equation}
+    Calculating the heat capacities,
+    \begin{align}
+        C_V&=\left(\partialderivative{E}{T}\right)_{N,V}=\frac{3}{2}N\\
+        C_P&=\left(\partialderivative{H}{T}\right)_{N,P}=2N
+    \end{align}
+    \begin{equation}
+        \therefore \gamma=\frac{C_P}{C_V}=\frac{4}{3}
+    \end{equation}
 \end{sol}
 \end{document}

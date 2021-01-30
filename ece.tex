@@ -8,6 +8,7 @@
 \usepackage{siunitx}
 
 \begin{document}
+\tableofcontents
 \section{Lecture 1}
 \subsection{An Electric Circult}
     An electric circult is an interconnection of circuit elements (incl. Conductors, semi-conductors, non-conductors). 
@@ -585,8 +586,183 @@ It is simpler to use a consistent system of units to analyze the circuits. Thus,
     Finally using KCL at the junction,
     \begin{equation}
         i_x+i_1+5v_2=0\implies i_x=\SI{-10.33}{A}
-    \end{equation}
-    
-    
+    \end{equation}    
 \end{sol}
+\section{Lecture 7}
+\subsection{Equivilent circuits for parallel and series resistors}
+\begin{center}
+    \begin{circuitikz}
+        \draw (0,0)
+        to[short,o-](4,0)
+        to[R=$R_4$](4,3)
+        to[R=$R_1$](1,3)
+        to[short,-o](0,3);
+    \end{circuitikz}
+\end{center}
+\begin{definition}
+    Series Connection: Two circuit elements are connect in series if and only if they are connected back to back, and at their point of connection, there is no other current path.
+    \begin{center}
+        \begin{circuitikz}
+            \draw (0,0)
+            to[R=$R_1$](2,0)
+            to[R=$R_2$](4,0);
+            \draw (7,0)
+            to[R=$R_3$](9,0)
+            to[R=$R_4$](11,0);
+            \draw (9,0)
+            to(9,1);
+        \end{circuitikz}
+    \end{center}
+    $R_1$ and $R_2$ are connected in series. $R_3$ and $R_4$ are also connected in series since the path between the two resistence is a open circuit, thus the current is zero so it is not a current path.
+\end{definition}
+\begin{theorem}
+    For resistors in series, the equivilent resistence is 
+    \begin{equation}
+        R_{eq}=\sum_kR_k
+    \end{equation}
+\end{theorem}
+\begin{proof}
+    Take a circuit with 2 resistors in series.
+    
+    Using KVL (clockwise),
+    \begin{equation}
+        -v_{tot}+v_1+v_2=0
+    \end{equation}
+    Using Ohm's law, 
+    \begin{align}
+        v_1&=R_1i_{tot}\\
+        v_2&=R_2i_{tot}
+    \end{align} 
+    Combining the results,
+    \begin{equation}
+        v_{tot}=v_1+v_2=(R_1+R_2)i_{tot}
+    \end{equation}
+    For an equvilent resistor from Ohm's law,
+    \begin{equation}
+        v_{tot}=R_{eq}i_{tot}\implies R_{eq}=R_1+R_2
+    \end{equation}
+    From induction, the equivilent resistence of any series connected resistors is equal to the sum of their resistences.
+\end{proof}
+\begin{definition}
+    Parallel connection: Two circuit elements are connected in parallel if they share two common nodes.
+    \begin{center}
+        \begin{circuitikz}
+            \draw (0,0)
+            to[short,o-](4,0)
+            to[R=$R_2$](4,2)
+            to[short,-o](0,2);
+            \draw (2,0)
+            to[R=$R_1$](2,2);
+        \end{circuitikz}
+    \end{center}
+\end{definition}
+\begin{theorem}
+    For parellel resistors, the equivilent resistence is 
+    \begin{equation}
+        R_{eq}=\left[\sum_k\frac{1}{R_k}\right]^{-1}
+    \end{equation}
+\end{theorem}
+\begin{proof}
+    \begin{center}
+        \begin{circuitikz}
+            \draw (0,0)
+            to[short,o-](4,0)
+            to[R=$R_2$](4,2)
+            to[short,-o](0,2);
+            \draw (2,0)
+            to[R=$R_1$](2,2);
+        \end{circuitikz}
+    \end{center}
+    Write KCL at N
+    \begin{equation}
+        i_{tot}=i_1+i_2
+    \end{equation}
+    Using KVL
+    \begin{equation}
+        -v_{tot}+v_1=0\implies v_{tot}=v_1=v_2
+    \end{equation}
+    Using Ohm's law, PSC holds
+    \begin{equation}
+        i_{tot}=\frac{v_1}{R_1}+\frac{v_2}{R_2}=\left(\frac{1}{R_1}+\frac{1}{R_2}\right)v_{tot}
+    \end{equation}
+    Using ohm's law for the equivilent resistor,
+    \begin{equation}
+        i_{tot}=\frac{v_{tot}}{R_{eq}}\implies \frac{1}{R_{eq}}=\frac{1}{R_1}+\frac{1}{R_2}\implies R_{eq}=\frac{R_1R_2}{R_1+R_2}
+    \end{equation}
+\end{proof}
+
+Consider two resistors in parellel with $R_2=0$. Thus, 
+\begin{equation}
+    R_{eq}=\frac{R_1R_2}{R_1+R_2}=\frac{0}{R_1}=0
+\end{equation}
+You can consider that the current is "sane". When given an option to flow with no resistence, it will take that path. Thus, if $R_2=0$, no current will flow through $R_1$ and the equivilent resistence is 0
+
+Correlary: Recall the definition of conductance is $G=1/R$. Thus,
+\begin{equation}
+    G_{eq}=\sum_kG_k
+\end{equation}
+\begin{example}[1]
+    Find the equivilent resistence between A and B
+    \begin{center}
+        \begin{circuitikz}
+            \draw (0,0)node[left]{B}
+            to[short,o-](7,0)
+            to[R=\SI{15}{k\ohm}](7,2)
+            to(5,2)
+            to[R=\SI{47}{k\ohm}](2,2)
+            to[short,-o](0,2)node[left]{A};
+            \draw (2,0)
+            to[R=\SI{56}{k\ohm}](2,2);
+            \draw (5,0)
+            to[R=\SI{15}{k\ohm}](5,2);
+        \end{circuitikz}
+    \end{center}
+\end{example}
+\begin{sol}[1]
+    Simplify the circuit in several steps (starting from the right)
+    \begin{enumerate}
+        \item The two right most resistors are correct in parellel.
+        \begin{center}
+            \begin{circuitikz}
+                \draw (0,0)node[left]{B}
+                to[short,o-](5,0)
+                to[R=$15\|15$ \SI{7.5}{k\ohm}](5,2)
+                to[R=\SI{47}{k\ohm}](2,2)
+                to[short,-o](0,2)node[left]{A};
+                \draw (2,0)
+                to[R=\SI{56}{k\ohm}](2,2);
+            \end{circuitikz}
+        \end{center}
+        \item 
+        \begin{center}
+            \begin{circuitikz}
+                \draw (0,0)node[left]{B}
+                to[short,o-](5,0)
+                to(5,2)
+                to[R=\SI{54.5}{k\ohm}](2,2)
+                to[short,-o](0,2)node[left]{A};
+                \draw (2,0)
+                to[R=\SI{56}{k\ohm}](2,2);
+            \end{circuitikz}
+        \end{center}
+        \item \begin{equation}
+            R_{eq}=56\|54.5=\frac{56\times 54.5}{56+54.5}=\SI{27.62}{k\ohm}
+        \end{equation}
+    \end{enumerate}
+    Note that in the original circuit, the \SI{15}{k\ohm} resistors are \textbf{not} connected in series to the \SI{47}{k\ohm} resistor as there exist (one) current path between them.
+\end{sol}
+\begin{example}[2]
+    Select $R$ such that $R_{AB}=R_L$
+    \begin{center}
+        \begin{circuitikz}
+            \draw (-1,0)node[left]{B}
+            to[short,o-](5,0)
+            to[R=$R_L$](5,2)
+            to[R=$R$](2,2)
+            to[R=$R$,-o](-1,2)node[left]{A};
+            \draw (2,0)
+            to[R=$4R$](2,2);
+        \end{circuitikz}
+    \end{center}
+\end{example}
 \end{document}
