@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
         {
             sum = 0.0l;
             square = 0.0l;
-            rep(n)
+            for(int _t=0;_t<n;++_t)
             {
                 e = (ld)rand()/(ld)RAND_MAX; // positive number (0,1)
                 sum += e;

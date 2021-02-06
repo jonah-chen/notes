@@ -21,13 +21,15 @@
 %%%%%%%%%%%%%%%%%%%%%%% COLORS %%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\definecolor{my-blue}{RGB}{93,169,233}
+\definecolor{my-blue}{RGB}{93,169,255}
 \definecolor{my-pink}{RGB}{238,118,116}
 \definecolor{my-green}{RGB}{0,191,0}
 \definecolor{my-orange}{HTML}{C78058}
 \definecolor{background}{HTML}{f2f2f2}
 \definecolor{my-yellow}{HTML}{F6BD60}
-
+\definecolor{my-blue2}{RGB}{93,169,199}
+\definecolor{my-blue3}{RGB}{169,199,240}
+\definecolor{my-blue4}{RGB}{69,201,199}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%% Style Definitions %%%%%%%%%%%%%%%%%%%%%
@@ -99,8 +101,18 @@
     title=\textbf{Theorem},
 }
 
+\newtcolorbox{proposition}{
+    one-sided-color=my-blue2,
+    title=\textbf{Proposition},
+}
+
+\newtcolorbox{corollary}{
+    one-sided-color=my-blue4,
+    title=\textbf{Corollary},
+}
+
 \newtcolorbox[auto counter]{lemma}{
-    one-sided-color=gray,
+    one-sided-color=my-blue3,
     title=\textbf{Lemma  \thetcbcounter},
 }
 

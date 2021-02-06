@@ -5,6 +5,11 @@
 \usepackage{physics}
 \usepackage{physoly}
 \usepackage{verbatim}
+\usepackage{siunitx}
+
+\newcommand{\bigspace}{\:\:\:\:\:\:\:\:\:\:\:\:\:\:\:\:\:\:\:\:\:\:\:\:\:\:\:\:\:\:}
+\newcommand{\smallspace}{\:\:\:\:\:\:\:\:\:\:}
+\newcommand{\ve}{\mathbf}
 
 \title{Notes on Statistical Mechanics by Pathria}
 \author{Jonah Chen}
@@ -293,11 +298,16 @@ Natural units will be used hahahaha $\hbar=c=k_B=1$
     \begin{equation}
         S(\alpha N,\alpha V, \alpha E)=\alpha S(N,V,E)
     \end{equation}
-    \item The corrected entropy of mixing would be
+    \item The corrected entropy of mixing for the same gas would be
     \begin{equation}
-        \Delta S=(N_1+N_2)\log\left(\frac{V_1+V_2}{N_1+N_2}\right)-N_1\log\left(\frac{V_1}{N_1}\right)-N_2\log\left(\frac{V_2}{N_2}\right)
+        \Delta S=S_F-S_1-S_2=(N_1+N_2)\log\left(\frac{V_1+V_2}{N_1+N_2}\right)-N_1\log\left(\frac{V_1}{N_1}\right)-N_2\log\left(\frac{V_2}{N_2}\right)\label{mixing:same}
     \end{equation}
     Here when $N_1/V_1=N_2/V_2$, $\Delta S$ is indeed zero!
+    \item For two different gasses,
+    \begin{equation}
+        \Delta S=S_{1F}+S_{2F}-S_1-S_2=N_1\log\left(\frac{V_1+V_2}{V_1}\right)+N_2\left(\frac{V_1+V_2}{V_2}\right)\label{mixing:different}
+    \end{equation}
+    Note that this is different, as the total final entropy of two different gasses is the sum of the entropies of each gas.
 \end{itemize}
 \subsection{More on the Ideal Gas}
 \begin{itemize}
@@ -335,10 +345,13 @@ Natural units will be used hahahaha $\hbar=c=k_B=1$
         E=\sum_{i=0}^\infty n_i\epsilon_i
     \end{equation}
     where $n_0,n_1,n_2\dots$ represent the number of particles in the system with energy $\epsilon_0,\epsilon_1,\epsilon_2\dots$ respectively.
-    \item The total number of microstates for a system of indistinguishable particles is then
+    \item The total number of ways to permute a specific microstate of a system of indistinguishable particles is then $N!/\prod n_i!$ as there are $N!$ ways of assigning each particle to each energy and $\prod n_i!$ overcounted due to particles with the same energy $\epsilon_i$.
+    \item The correction done by Gibbs (of $N!$) is assuming that no two particles are at the exact same energy, which is true in the classical limit where $\langle n_i\rangle<<1$, which occurs when the system has either a sufficiently high temperature or low density.
+    \item Define the \textit{weight factor}
     \begin{equation}
-        \Omega=\frac{N!}{\prod n_i!}
+        w\{n_i\}=\frac{1}{\prod_in_i!}
     \end{equation}
+    As mentioned before, in the classical limit $w\{n_i\}=1$. 
 \end{itemize}
 \section{Chapter 1 Problems}
 \begin{sol}[1.1]
@@ -394,7 +407,7 @@ Natural units will be used hahahaha $\hbar=c=k_B=1$
     \begin{equation}
         n_x^2+n_y^2+n_z^2=\frac{L^2}{2\pi^2}\epsilon^2
     \end{equation}
-    \begin{theorem}
+    \begin{lemma}
         For $N>1$ random variables $\{r_1,r_2\dots r_N\}$ that has a uniform distribution within the interval $[0,M)$, both
         \begin{equation}
             \frac{3}{4}N<\left\langle\frac{(\sum_{n=1}^Nr_n)^2}{\sum_{n=1}^Nr_n^2}\right\rangle<N
@@ -402,10 +415,10 @@ Natural units will be used hahahaha $\hbar=c=k_B=1$
         \begin{equation}
             \lim_{N\to\infty}\frac{1}{N}\left\langle\frac{(\sum_{n=1}^Nr_n)^2}{\sum_{n=1}^Nr_n^2}\right\rangle=\frac{3}{4}
         \end{equation}
-    \end{theorem}
-    \begin{proof}
+    \end{lemma}
+    \begin{prooof}
         Prof. Davis will have a proof.
-    \end{proof}
+    \end{prooof}
     Let $N>>1$ particles, there will be $3N$ quantum numbers whose squares add up to some number. From the theorem, 
     \begin{equation}
         \sum_{i=1}^{3N}n_i^2=\frac{L^2}{2\pi^2}\sum_{i=1}^{3N}\epsilon_i^2=\frac{L^2}{2\pi^2}\frac{4}{3N}\left(\sum_{i=1}^{3N}\epsilon_i\right)^2=\frac{2L^2E^2}{3\pi^2N}\equiv R^2
@@ -437,4 +450,140 @@ Natural units will be used hahahaha $\hbar=c=k_B=1$
         \therefore \gamma=\frac{C_P}{C_V}=\frac{4}{3}
     \end{equation}
 \end{sol}
+\begin{sol}[1.11]
+    Let nitrogen be gas 1 and oxygen be gas 2. Assume the they are ideal gasses,
+    \begin{equation}
+        V_1=\frac{n_1RT}{P}=\frac{(\SI{4}{mol})(\SI{82.057}{cc.atm K.^{-1}mol.^{-1}})(\SI{300}{K})}{(\SI{1}{atm})}=\SI{98468}{cc}
+    \end{equation}
+    \begin{equation}
+        V_2=\frac{n_2RT}{P}=\frac{(\SI{1}{mol})(\SI{82.057}{cc.atm K.^{-1}mol.^{-1}})(\SI{300}{K})}{(\SI{1}{atm})}=\SI{24617}{cc}
+    \end{equation}
+    Note that $V_1+V_2=\SI{123086}{cc}$. From equation \eqref{mixing:different}, the entropy of mixing of two gasses is
+    \begin{equation}
+        \Delta S=N_1\log\left(\frac{V_1+V_2}{V_1}\right)+N_2\log(\frac{V_1+V_2}{V_2})
+    \end{equation}
+    As $nR=N$, (R is also \SI{8.314e7}{erg.K.^{-1}mol.^{-1}} in proper units) and dividing by \SI{5}{mol} of air that is created by the mixing,
+    \begin{equation}
+        \begin{aligned}
+            \Delta S&=\frac{1}{5}(\SI{8.314e7}{erg.K.^{-1}mol.^{-1}})\left[(\SI{4}{mol})\log(\frac{\SI{123086}{cc}}{\SI{98468}{cc}})+(\SI{1}{mol})\log(\frac{\SI{123086}{cc}}{\SI{24617}{cc}})\right]
+            \\&=\SI{4.16e7}{erg.K^{-1}.mol^{-1}}
+        \end{aligned}
+    \end{equation}
+    There is also a much simpler calculation where $V$ is substituted for $nRT/P$ with $RT/P$ cancelling out.
+    \begin{equation}
+        \Delta S=\frac{1}{5}(\SI{8.314e7}{erg.K.^{-1}mol.^{-1}})\left[(\SI{4}{mol})\log(\frac{\SI{5}{mol}}{\SI{4}{mol}})+(\SI{1}{mol})\log(\frac{\SI{5}{mol}}{\SI{1}{mol}})\right]
+            =\SI{4.16e7}{erg.K^{-1}.mol^{-1}}
+    \end{equation}
+    But given how much advanced mathematics is done, one needs one's daily dose of number-krunching.
+\end{sol}
+\begin{sol}[1.13]
+    If the initial temperatures are different, the total energy in the two gases would be 
+    \begin{equation}
+        E=E_1+E_2=\frac{3}{2}(N_1T_1+N_2T_2)\equiv\frac{3}{2}(N_1+N_2)T_{eq}
+    \end{equation}
+    Firstly consider the case of two identical gases. The entropy of mixing would be
+    \begin{align}
+        \Delta S=S_F-S_1-S_2&=\Delta S_0+\frac{3}{2}(N_1+N_2)\log\left(\frac{E}{3(N_1+N_2)}\right)-\frac{3}{2}N_1\log\left(\frac{T_1}{2}\right)-\frac{3}{2}N_2\log\left(\frac{T_2}{2}\right)\\
+        &=\Delta S_0+\frac{3}{2}\left[N_1\log\left(\frac{N_1+\beta N_2}{N_1+N_2}\right)+N_2\log\left(\frac{\beta^{-1}N_1+N_2}{N_1+N_2}\right)\right]\bigspace \beta\equiv\frac{T_2}{T_1}\\
+        &=\Delta S_0+\frac{3}{2}\left[N_1\log\left(\frac{T_{eq}}{T_1}\right)+N_2\log\left(\frac{T_{eq}}{T_2}\right)\right]
+    \end{align}
+    where $\Delta S_0$ is the entropy of mixing if the initial temperatures are the same. 
+
+    Next consider the case of two different gasses. Then, the entropy of mixing would be 
+    \begin{align}
+        \Delta S=S_{1F}+S_{2F}-S_{1}-S_2&=\Delta S_0+\frac{3}{2}N_1\log\left(\frac{T_{eq}}{2}\right)+\frac{3}{2}N_2\log\left(\frac{T_{eq}}{2}\right)-\frac{3}{2}N_1\log\left(\frac{T_{1}}{2}\right)-\frac{3}{2}N_2\log\left(\frac{T_{2}}{2}\right)\\
+        &=\Delta S_0+\frac{3}{2}\left[N_1\log\left(\frac{T_{eq}}{T_1}\right)+N_2\log\left(\frac{T_{eq}}{T_2}\right)\right]
+    \end{align}
+    As expected since temperature is an intensive field, the contribution to the entropy of mixing from the different difference in temperature is independent of whether if two identical or different gases are mixed. However, the total entropy of mixing still depends on whether the gases are identical or not as $\Delta S_0$ would be different. 
+\end{sol}
+\section{Phase Space}
+\begin{itemize}
+    \item Ensemble theory considers the time-averaged behavior of a given system that can be in any one of the large number of distinct microstate for a given macrostate using exectation values.
+    \item A classical system is fully specified by the positions and momenta of all its particles. Therefore, for $N$ particles it requires $3N$ generalized position $q_i$ and generalized momenta $p_i$. These $6N$ coordinates $q_1,q_2\dots q_{3N},p_1,p_2\dots p_{3N}$ is a point in a $6N$ dimensional phase space.
+    \item The time evolution of the system (in the Hamiltonian formalism) is goverened by the canonical equations of motion 
+    \begin{align}
+        \dot q_i&=\partialderivative{H}{p_i}\label{position}\\
+        \dot p_i&=-\partialderivative{H}{q_i}\label{momentum}
+    \end{align}
+    \item As time passes, the coordinates which defines the microstate of the system also changes. Define,
+    \begin{equation}
+        \ve q\equiv (q_1,q_2\dots q_{3N}),\smallspace \ve p\equiv p_1,p_2\dots p_{3N}
+    \end{equation}
+    In phase space, the point $(\ve q,\ve p)$ moves in a \textit{trajectory} and its speed and direction is determined by the \textit{velocity vector} $\mathbf{v}\equiv (\dot{\ve q},\dot{\ve p})$
+    \item The finite volume $V$ restricts the coordinates $q_i$ and the finite energy $E$ limits the values of both the positions $q_i$ and momenta $p_i$ (as it is related to the Hamiltonian).
+    \item If the total energy of the system is know to have a precise value, the trajectory of the system will be constrained to a $6N-1$ dimensional hypersurface. If the total energy is constrained within $E-\frac{1}{2}\epsilon$ and $E+\frac{1}{2}\epsilon$, the trajectory would be restricted to a shell about the hypersurface.
+    \item The \textit{density function} $\rho(\ve q,\ve p;t)$ is a function such that $\rho(\ve q,\ve p;t)\dd^{3N}\ve q\dd^{3N}\ve p$ is the probability of finding the system (macrostate) at the coordinates $(\ve q,\ve p)$ at a given point in time $t$. 
+    \item Let it be normalized. It's like $\rho(\ve q,\ve p;t)=|\braket{\ve q,\ve p}{\psi,t}|^2$ in a way (for state vector representing the system $\ket{\psi,t}$ and state vector microstate $\ket{\ve q,\ve p}$). Of course, that would require conservation of probability (which will be proved later). 
+    \item In classical mechanics, all observables are a function of the positions and momenta (similar to operators on the state vector in quantum). The expectation value of an observable $f(\ve q,\ve p)$ is
+    \begin{equation}
+        \langle f\rangle=\int f(\ve q,\ve p)\rho(\ve q,\ve p;t)\dd^{3N}\ve q\dd^{3N}\ve p
+    \end{equation}
+\end{itemize}
+\begin{definition}
+    An ensemble is \textbf{stationary} iff
+    \begin{equation}
+        \partialderivative{\rho}{t}=0\:\forall t
+    \end{equation}
+    For an stationary ensemble, the expectation values for all observables are time-independent. Therefore, they represent systems in \textbf{equilibrium}.
+\end{definition}
+\subsection{Conservation of Probability}
+\begin{proposition}
+    Let the probability current be $\ve j\equiv \rho\ve v$. Just like in quantum mechanics the probability is conserved.
+    \begin{equation}
+        \partialderivative{\rho}{t}+\nabla\cdot\ve j=0\label{conservation:probability}
+    \end{equation}
+\end{proposition}
+\begin{prooof}
+    Consider any closed region $\omega$ within phase space and let the bounding surface be $\sigma$. Then, the change in probability (over time) of finding in microstates represented by points within the region (or the probability entering the region) is 
+    \begin{equation}
+        \partialderivative{}{t}\int_\omega \rho\:\dd\omega
+    \end{equation}
+    Over a surface element $\dd\sigma$, the probability exiting (the flux) is the velocity in the direction of the normal multiplied by the density at that point $\rho\:\ve v\cdot\ve{\hat{n}}\:\dd\sigma$. Integrating over the entire surface yields the total probability exiting the region, which must add up with the probability entering the region to zero.
+    \begin{equation}
+        \partialderivative{}{t}\int_\omega\rho\:\dd\omega+\oint_\sigma \rho\:\ve v\cdot\ve{\hat{n}}\:\dd\sigma=0
+    \end{equation}
+    Applying divergence theorem on the second term yields
+    \begin{equation}
+        \partialderivative{}{t}\int_\omega\rho\:\dd\omega+\int_\omega\nabla\cdot(\rho\ve v)\:\dd\omega=0
+    \end{equation}
+    Differentiating under the integral sign and substituting the definition of $\ve j$ would yield
+    \begin{equation}
+        \int_\omega\partialderivative{\rho}{t}+\nabla\cdot\ve j\:\dd\omega=0
+    \end{equation}
+    Since this is true for every closed region $\omega$, the integrand must be zero. Therefore, probability is conserved. QED.
+\end{prooof}
+\subsection{Liouville's Theorem}
+\begin{theorem}
+    For two observables $A(\ve q,\ve p)$ and $B(\ve q,\ve p)$, define the poission bracket (\textbf{not} the commutator) as 
+    \begin{equation}
+        [A,B]=\partialderivative{A}{q_i}\partialderivative{B}{p_i}-\partialderivative{A}{p_i}\partialderivative{B}{q_i}\label{poission:bracket}
+    \end{equation}
+    Note that the Einstein sum convenction is used in \eqref{poission:bracket}. Then,
+    \begin{equation}
+        \derivative{\rho}{t}=\partialderivative{\rho}{t}+[\rho,H]=0
+    \end{equation}
+\end{theorem}
+\begin{prooof}
+    \textbf{Note that Einstein sum convention is used in this proof.}
+
+    From conservation of probability \eqref{conservation:probability}, the divergence can be expanded
+    \begin{align}
+        0&=\partialderivative{\rho}{t}+\partialderivative{\rho \dot q_i}{q_i}+\partialderivative{\rho \dot p_i}{p_i}\\
+        &=\partialderivative{\rho}{t}+\partialderivative{\rho}{q_i}\dot q_i+\partialderivative{\rho}{p_i}\dot p_i+\rho\left(\partialderivative{\dot q_i}{q_i}+\partialderivative{\dot p_i}{p_i}\right)\label{111}
+    \end{align}
+    From the canonical equations of motion \eqref{position} and \eqref{momentum}, 
+    \begin{align}
+        \partialderivative{\dot q_i}{q_i}&=\partialderivative{}{q_i}\partialderivative{H}{p_i}=\partialderivative{^2H}{q_ip_i}\\
+        \partialderivative{\dot p_i}{p_i}&=\partialderivative{}{p_i}\left(-\partialderivative{H}{q_i}\right)=-\partialderivative{^2H}{p_iq_i}
+    \end{align}
+    This shows that final term is zero. As $\rho$ is a function of variables $\ve q,\ve p, t$, the first three terms of \eqref{111} represents the total derivative with respect to time $\dd\rho/\dd t$. Now, substitute $\dot q_i$ and $\dot p_i$ using the canonical equations of motion.
+    \begin{align}
+        0&=\partialderivative{\rho}{t}+\partialderivative{\rho}{q_i}\partialderivative{H}{p_i}+\partialderivative{\rho}{p_i}\left(-\partialderivative{H}{q_i}\right)\\
+        &=\partialderivative{\rho}{t}+[\rho,H]
+    \end{align}
+    QED.
+\end{prooof}
+\begin{itemize}
+    \item 
+\end{itemize}
 \end{document}

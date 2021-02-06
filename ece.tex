@@ -100,9 +100,9 @@
     \begin{equation}
         \sum p=0
     \end{equation}
-    \begin{proof}
+    \begin{prooof}
         Will not be presented at this point in the course.
-    \end{proof}
+    \end{prooof}
 \end{theorem}
 
 \begin{example}[2]
@@ -621,7 +621,7 @@ It is simpler to use a consistent system of units to analyze the circuits. Thus,
         R_{eq}=\sum_kR_k
     \end{equation}
 \end{theorem}
-\begin{proof}
+\begin{prooof}
     Take a circuit with 2 resistors in series.
     
     Using KVL (clockwise),
@@ -642,7 +642,7 @@ It is simpler to use a consistent system of units to analyze the circuits. Thus,
         v_{tot}=R_{eq}i_{tot}\implies R_{eq}=R_1+R_2
     \end{equation}
     From induction, the equivilent resistence of any series connected resistors is equal to the sum of their resistences.
-\end{proof}
+\end{prooof}
 \begin{definition}
     Parallel connection: Two circuit elements are connected in parallel if they share two common nodes.
     \begin{center}
@@ -662,7 +662,7 @@ It is simpler to use a consistent system of units to analyze the circuits. Thus,
         R_{eq}=\left[\sum_k\frac{1}{R_k}\right]^{-1}
     \end{equation}
 \end{theorem}
-\begin{proof}
+\begin{prooof}
     \begin{center}
         \begin{circuitikz}
             \draw (0,0)
@@ -689,7 +689,7 @@ It is simpler to use a consistent system of units to analyze the circuits. Thus,
     \begin{equation}
         i_{tot}=\frac{v_{tot}}{R_{eq}}\implies \frac{1}{R_{eq}}=\frac{1}{R_1}+\frac{1}{R_2}\implies R_{eq}=\frac{R_1R_2}{R_1+R_2}
     \end{equation}
-\end{proof}
+\end{prooof}
 
 Consider two resistors in parellel with $R_2=0$. Thus, 
 \begin{equation}
@@ -765,4 +765,213 @@ Correlary: Recall the definition of conductance is $G=1/R$. Thus,
         \end{circuitikz}
     \end{center}
 \end{example}
+\section{Lecture 8}
+\subsection{Voltage Division}
+Suppose there are two resistor connected in series. With voltage through both as $v_T$ and $i_T$.
+\begin{center}
+    \begin{circuitikz}
+        \draw (0,0)node[above]{$-$}
+        to(2,0);
+        \draw (0,4)node[below]{$+$}
+        to[short,i=$i_T$] (2,4)
+        to[R=$R_1$,v=$v_1$](2,2)
+        to[R=$R_2$,v=$v_2$](2,0);
+        \draw (0,2)node{$v_T$};
+    \end{circuitikz}
+\end{center}
+Then the voltage division principle states 
+\begin{equation}
+    v_1=\frac{R_1}{R_1+R_2}v_T
+\end{equation}
+In general for $N$ series connected resistors,
+\begin{equation}
+    v_i=\frac{R_i}{\sum_kR_k}v_T
+\end{equation}
+Note the polarity of the voltage $v_i$ \textbf{must} be the same as $v_T$, otherwise the $-$ sign must be introduced.
+
+As a consequence, the resistor with the higher resistence will have the higher voltage. 
+
+\begin{prooof}
+    The equivilent resistence of the two resistors is $R_T=R_1+R_2$. Using Ohm's law, $v_T=i_T(R_1+R_2)$. 
+\end{prooof}
+
+\subsection{Current Division}
+\begin{derivation}
+Suppose there are two resistors connected in parellel.
+\begin{center}
+    \begin{circuitikz}
+        \draw (0,0)
+        to[short,o-,i=$i_T$](2,0)
+        to(4,0)
+        to[R=$R_2$,i=$i_2$,v=$v_T$](4,2)
+        to[short,-o](0,2);
+        \draw (2,0)
+        to[R=$R_1$,i=$i_1$,v=$v_T$](2,2);
+    \end{circuitikz}
+\end{center}
+    Use Ohm's Law
+    \begin{equation}
+        v_T=R_1i_1
+    \end{equation}
+    \begin{equation}
+        v_T=\frac{R_1R_2}{R_1+R_2}
+    \end{equation}
+    Since the LHS is the same, the RHS must be the same as well. Thus,
+    \begin{equation}
+        i_1=\frac{R_2}{R_1+R_2}i_T\label{current:div}
+    \end{equation}
+    Equation \eqref{current:div} is known as the current division principle. This can also be expressed in terms of conductances
+    \begin{equation}
+        i_1=\frac{G_1}{G_1+G_2}i_T
+    \end{equation}
+    For the general case of $N$ parellel resistors, it is possible to use the equation with the conductances similar to the voltage division principle.
+    \begin{equation}
+        i_i=\frac{G_i}{\sum_kG_k}i_T
+    \end{equation}
+    It is possible to write the other resistors as an equivilent resistor with resistence $R_{eq}'$, then the current at the resistor of interest $R$ is
+    \begin{equation}
+        i=\frac{R_{eq}'}{R+R_{eq}'}i_T
+    \end{equation}
+\end{derivation}
+
+The directions of $i_T$ and $i_1$ \textbf{must} be similar. Otherwise, the $-$ sign must be introduced. 
+\begin{example}
+    Find $v_0$ and $i_0$
+    \begin{center}
+        \begin{circuitikz}
+            \draw (0,0)
+            to(4,0)
+            to[R=$R_2$,i=$i_2$,v=$v_T$](4,2)
+            to[short,-o](0,2);
+            \draw (2,0)
+            to[R=$R_1$,i=$i_1$,v=$v_T$](2,2);
+        \end{circuitikz}
+    \end{center}
+\end{example}
+\section{Lecture}
+\subsection{Nodal Analysis}
+Objective: Find node voltages.
+
+Methodology: KCL for all the nod in terms of the \textbf{node voltage}: The voltage with respect to a reference node or ground node.
+\begin{definition}
+    \begin{enumerate}
+        \item $V_{AB}$ is the voltage with the + polarity at point A and $-$ polarity at point B. 
+        \item $V_A$ is the voltage with the $+$ polarity at point A and $-$ at the reference node or ground.
+        \item By definition, the voltage of the ground node is equal to zero.
+    \end{enumerate}
+\end{definition}
+
+\begin{example}[1]
+    Perform nodal analysis on the following circuit.
+    \begin{center}
+        \begin{circuitikz}
+            \draw (0,0)
+            to[I=\SI{1}{A}](0,3)
+            to[short,-*](2,3)node[above]{$v_1$}
+            to[R=\SI{6}{\ohm},-*,i=$i_y$](8,3)node[above]{$v_2$}
+            to(10,3)
+            to[I=\SI{3}{A}](10,0)
+            to(0,0);
+            \draw (2,3)to[R=\SI{4}{\ohm},i=$i_x$](2,0);
+            \draw (8,0)to[R=\SI{2}{\ohm}](8,3);
+        \end{circuitikz}
+    \end{center}
+\end{example}
+
+\begin{proposition}
+    The common convention is to assume a negative sign for current entering node and positive sign for current leaving node. It is also customary to write the current leaving the node at a resistor.
+\end{proposition}
+\begin{sol}[1]
+    Using ohm's law, $i_x=v_1/4$, $i_y=(v_1-v_2)/6$. (labelled for analysis of node 1)
+
+    Execute KCL for node 1
+    \begin{equation}
+        -1+\frac{v_1}{4}+\frac{v_1-v_2}{6}=0
+    \end{equation}
+    Execute KCL for node 2. It is recommended to start fresh for each node. 
+    \begin{equation}
+        +3+\frac{v_2}{2}+\frac{v_2-v_1}{6}=0
+    \end{equation}
+    Now there are two equations for two unknowns. This can be solved using computer to obtain
+    $v_1=\SI{2/3}{V},v_2=\SI{-13/2}{V}$. Note that $v_1$ represents the voltage measured by using a voltmeter with the positive terminal of node 1 and negative terminal at the ground. 
+    
+    The power of nodal analysis is that now it is possible to easily find the voltage between any two points in the circuit. For example, the voltage of the \SI{3}{A} is just $v_2-0=\SI{-13/2}{A}$
+\end{sol}
+
+\begin{example}[2]
+    \begin{center}
+        \begin{circuitikz}
+            \draw (0,3)
+            to[V=\SI{10}{V},*-] (0,0)
+            to(3,0)
+            to[R=\SI{4}{\ohm}](3,3)
+            to[R=\SI{1}{\ohm}](0,3)node[above]{$v_1$};
+            \draw (3,3)node[above]{$v_2$}
+            to[R=\SI{8}{\ohm},*-*,i=$i_x$](6,3)node[above]{$v_3$}
+            to[R=\SI{2}{\ohm}](6,0);
+            \draw (6,3)
+            to[R=\SI{5}{\ohm},-*](9,3)node[above]{$v_4$}
+            to[V=\SI{20}{V}](9,0);
+            \draw (3,0)to(9,0);
+        \end{circuitikz}
+    \end{center}
+\end{example}
+\begin{sol}
+    In this circuit, there are voltage sources! Hence, we do not know the current of the at certain nodes thus writing KCL writing there would not be productive. However, the voltage at nodes 1 and 4 are actually known!
+    \begin{align}
+        v_1&=+\SI{10}{V}\\
+        v_2&=+\SI{20}{V}
+    \end{align}
+    \textbf{Note} to pay attention to the direction the voltage sources are oriented.
+
+    KCL for node 2
+    \begin{equation}
+        \frac{v_2-v_1}{1}+\frac{v_2-0}{4}+\frac{v_2-v_3}{8}=0
+    \end{equation}
+    KCL at node 3
+    \begin{equation}
+        \frac{v_3-v_4}{5}+\frac{v_3+0}{2}+\frac{v_3-v_2}{8}=0
+    \end{equation}
+    It may seem like there are too many unknowns, but $v_1$ and $v_2$ are already known. Hence, only $v_2=\SI{7.82}{V},v_3=\SI{6.03}{V}$ needs to be found.
+
+    To find $i_x$, use the ohm's law
+    \begin{equation}
+        i_x=\frac{v_2-v_3}{8}=\SI{0.223}{A}
+    \end{equation}
+\end{sol}
+\section{Lecture}
+\subsection{Nodal Analysis (cont.)---Circuits with Dependent Sources}
+\begin{itemize}
+    \item Before writing the KCL for dependent source, first write the parameters it depends on in terms of the \textit{node voltages}.
+\end{itemize}
+
+\begin{example}
+    Perform nodal analysis on the circuit.
+    \begin{center}
+        \begin{circuitikz}
+            \draw(0,3)
+            to[V=\SI{4}{V}](0,0)
+            to(6,0)
+            to[cI=$2v_x$](6,3)
+            to(6,5)
+            to[R=\SI{2}{\ohm},v=$v_x$](0,5);
+            \draw(0,5)
+            to[short,-*](0,3)node[left]{$v_A$};
+            \draw(3,3)node[above]{$v_B$}
+            to[I=\SI{7}{A},*-](0,3);
+            \draw (3,3) to[R=\SI{3}{\ohm}] (3,0);
+            \draw (3,3)to[R=\SI{1}{\ohm},-*](6,3)node[right]{$v_C$};
+        \end{circuitikz}
+    \end{center}
+\end{example}
+
+\
+% mouse hover event
+% get mouse position (system.windows.form.cursor.positon)
+% Form.location (where the form is on the screen)
+% click action (for the form)
+
+% image box
+% C# bitmap for updating image
+
 \end{document}
