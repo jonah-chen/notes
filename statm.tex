@@ -498,7 +498,7 @@ Natural units will be used hahahaha $\hbar=c=k_B=1$
 \end{sol}
 \section{Phase Space}
 \begin{itemize}
-    \item Ensemble theory considers the time-averaged behavior of a given system that can be in any one of the large number of distinct microstate for a given macrostate using exectation values.
+    \item Ensemble theory considers the time-averaged behavior of a given system that can be in any one of the large number of distinct microstate for a given macrostate using expectation values.
     \item A classical system is fully specified by the positions and momenta of all its particles. Therefore, for $N$ particles it requires $3N$ generalized position $q_i$ and generalized momenta $p_i$. These $6N$ coordinates $q_1,q_2\dots q_{3N},p_1,p_2\dots p_{3N}$ is a point in a $6N$ dimensional phase space.
     \item The time evolution of the system (in the Hamiltonian formalism) is goverened by the canonical equations of motion 
     \begin{align}
@@ -564,7 +564,7 @@ Natural units will be used hahahaha $\hbar=c=k_B=1$
     \end{equation}
 \end{theorem}
 \begin{prooof}
-    \textbf{Note that Einstein sum convention is used in this proof.}
+    \textbf{Note that Einstein sum convention is used in this proof. YOU CAN'T STOP ME.}
 
     From conservation of probability \eqref{conservation:probability}, the divergence can be expanded
     \begin{align}
@@ -584,6 +584,17 @@ Natural units will be used hahahaha $\hbar=c=k_B=1$
     QED.
 \end{prooof}
 \begin{itemize}
-    \item 
+    \item For a stationary ensemble, Liouville's theorem requires $[\rho,H]=0$.
+    \item The trivial solutions are $\rho(\ve q, \ve p)=$ constant. This corresponds to density functions that are independent of the coordinates hence uniform over phase space at all times. This means all possible microstates are equally likely, which also supports the axiom of "equal \textit{a priori} probabilities".
+    \item Let $\omega$ denote the allowed region in phase space. For this case, the expectation value for any observable $f(\ve q,\ve p)$ is just
+    \begin{equation}
+        \langle f\rangle = \frac{1}{\omega}\int_{\omega}f(\ve q,\ve p)\dd\omega
+    \end{equation}
+    \item The ensemble resulting from these solutions is called the \textbf{microcanonical ensemble}.
+    \item A more general solution to $[\rho,H]=0$ is 
+    \begin{equation}
+        \rho(\ve q, \ve p)=\rho(H(\ve q, \ve p))\propto\exp\left(-\frac{H(\ve q,\ve p)}{kT}\right)
+    \end{equation}
+    The class of ensembles that are proportional to the exponential function of the Hamiltonian is called the \textit{canonical ensemble}.
 \end{itemize}
 \end{document}
