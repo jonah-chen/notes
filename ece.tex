@@ -6,6 +6,8 @@
 \usepackage[american]{circuitikz}
 \usepackage{physoly}
 \usepackage{siunitx}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.16} 
 
 \begin{document}
 \tableofcontents
@@ -1753,6 +1755,59 @@ Where $v_{oc}$ and $i_{sc}$ \textbf{must} conform to PSC.
 \begin{itemize}
     \item The passive elements of these circuits are either R \& C or R \& L.
 \end{itemize}
+
+\subsection{Source-free RC Circuits}
+\begin{derivation}
+    The capacitor has been connected to an arbiturary external circuit before time $t=0$ such that it gains a voltage $v_C(0^-)=V_0$. At time $t=0$, the capacitor is disconnected to the external circuit and the switch is closed.
+    \begin{center}
+        \begin{circuitikz}
+            \draw (5,3)
+            to[switch, i=$i_C(t)$] (0,3)
+            to[C=$C$, v=$v_C(t)$] (0,0)
+            to(5,0)
+            to[R=$R$] (5,3);
+        \end{circuitikz}
+    \end{center}
+    We can write KVL for this loop (counter clockwise)
+    \begin{equation}
+        v_C(t)+i_C(t)R=0\label{134}
+    \end{equation}
+    For a capacitor, $i_C=C\dot v_C$. Substituting into the previous relation,
+    \begin{equation}
+        v_C+RC\dot v_C=0
+    \end{equation}
+    $R$ and $C$ are time-independent, thus, this is a simple seperable differential equation and the general solution is 
+    \begin{equation}
+        v_C(t)=A\exp(-\frac{t}{RC})
+    \end{equation}
+    for arbiturary constant A. Noting that $v_C(0^-)=V_0$ and the voltage across a capacitor cannot change abruptly, the capacitor voltage is
+    \begin{equation}
+        v_C(t)=V_0\exp(-\frac{t}{RC})\label{rc-voltage}
+    \end{equation}
+    From \eqref{134}, note that the initial current in the capacitor is $i_C(0)=-\frac{V_0}{R}\equiv I_0$. Thus, the current flowing through the capacitor is 
+    \begin{equation}
+        i_C(t)=I_0\exp(-\frac{t}{RC})
+    \end{equation}
+\end{derivation}
+
+\begin{definition}
+    We define the \textit{time constant}
+    \begin{equation}
+        \tau\equiv RC
+    \end{equation}
+    as it has the dimensions of time.
+\end{definition}
+\begin{itemize}
+    \item This indicate how long it takes for the tangent line (of the voltage) to cross the time axis.
+    \item This is also the amount of time for the voltage or current to drop to $1/e$ of its original value.
+    \item A larger time constant means the voltage and current decays slower.
+    \item There is some initial energy in the circuit that gradually dissipate through the resistor 
+    \begin{equation}
+        w(0)=\frac{1}{2}CV_0^2
+    \end{equation}
+    \item If a capacitor that is connected to an interconnection of resistors (in series), the capacitor voltage can be found by substituting the Thevenin resistance for $R$ in \eqref{rc-voltage}.
+\end{itemize}
+
 
 
 % mouse hover event

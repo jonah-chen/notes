@@ -1,0 +1,154 @@
+\documentclass{article}
+\usepackage[a4paper,margin=0.5in]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{physics}
+\usepackage{physoly}
+\usepackage{verbatim}
+\usepackage{siunitx}
+\usepackage{bbm}
+
+\newcommand{\bigspace}{\:\:\:\:\:\:\:\:\:\:\:\:\:\:\:\:\:\:\:\:\:\:\:\:\:\:\:\:\:\:}
+\newcommand{\smallspace}{\:\:\:\:\:\:\:\:\:\:}
+\newcommand{\ve}{\mathbf}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\1}{\mathbbm{1}}
+
+\setlength{\parindent}{0em}
+
+\title{Fourier Series for Dummies}
+\author{$-\int \mathbb{JAMES\:DAVI}\,\dd s$}
+
+
+\begin{document}
+\maketitle
+
+\section{Requisites}
+\begin{enumerate}
+    \item Know what a dot product is
+    \item Know basic linear algebra
+    \item Know what sin and cos are
+    \item Know how to do basic integrals
+\end{enumerate}
+
+\section{Foundations}
+\begin{proposition}
+    The set $B=\{1/\sqrt 2,\cos(nx),\sin(nx)\}, n=1,2,3,\dots$ is a (orthanormal)\footnote{You don't really need to know what this means, but essentially a set $\{a_1,a_2,a_3,\dots\}$ is orthanormal iff $a_i\cdot a_j=\delta_{ij}$} basis\footnote{If you want to be really precise, the series may diverge for a subset of measure 0, but that's besides the point. Source: Wikipedia} for the vector space of square-integrable real-valued functions $f:(-\pi,\pi)\to\R$. i.e.
+    the following integral
+    \begin{equation}
+        \int_{-\pi}^\pi f(x)^2\dd x \:\:\:\text{exists}
+    \end{equation}
+    The proof of this proposition is quite difficult but it is true so we can use it.
+\end{proposition}
+We will first make several definitions
+\begin{definition}
+    We can define the dot product between two vectors (functions) $f$ and $g$ as the following.
+    \begin{equation}
+        f\cdot g\equiv\frac{1}{\pi}\int_{-\pi}^\pi f(x)g(x)\dd x\label{dot}
+    \end{equation}
+    This definition is okay because it satisfies all the axioms of the inner product (linearity in the second argument, conjugate symmetry, positive definite). But we don't need to worry about those.
+\end{definition}
+\begin{definition}
+    The vectors in our set $B$ will be defined using this notation:
+    \begin{equation}
+        \ve e_N\equiv\begin{cases}
+            \cos(Nx) & N<0\\
+            \frac{1}{\sqrt 2} & N=0\\
+            \sin(Nx) & N>0
+        \end{cases}
+    \end{equation}
+    Note that cosine is a even function so $\cos(-x)=\cos(x)$.
+\end{definition}
+
+Note by the definitions, the original set $B$ is $\{\ve e_i\}=\{\dots,\ve e_{-2},\ve e_{-1}, \ve e_0, \ve e_1, \ve e_2, \dots\}, i\in\mathbb{Z}$.
+
+We will first prove that the set is orthanormal. i.e. they are orthogonal and have a norm or length of 1, just like the $i,j,k$ vectors in $\R^3$. 
+
+\begin{prooof}
+    First we prove that the vectors are normal. i.e. the norm or the length of the vector is 1. 
+    \begin{align}
+        \ve e_i\cdot \ve e_i&=\begin{cases}
+            \frac{1}{\pi}\int_{-\pi}^\pi \sin^2(ix)\dd x & i>0\\
+            \frac{1}{\pi}\int_{-\pi}^\pi \cos^2(ix)\dd x & i<0
+        \end{cases}\\
+        &=\frac{1}{\pi}\frac{1}{2}\left(\int_{-\pi}^\pi \dd x \pm \int_{-\pi}^\pi \cos(2ix)\dd x\right)
+    \end{align}
+    Since $(-\pi,\pi)$ always contains a integer number of periods of $\cos(2ix)$, the second integral is zero. The first integral evaluates to $2\pi$, thus $2\pi/2\pi=1$, as expected. This holds for the trivial case of $i=0$ as well.
+
+    To prove these are orthogonal, we need to show several cases. Because the symmetries of the $\sin$ and $\cos$, you can easily show that for $i\neq j, \ve e_i\cdot\ve e_j=0$.
+\end{prooof}
+
+For a orthanormal basis, the identity operator
+\begin{equation}
+    f \equiv \1 f=\sum_{n=-\infty}^\infty (\ve e_n\cdot f)\ve e_n\label{6}
+\end{equation}
+This is also known as \textit{The Resolution of the Identity}.
+
+\subsubsection{If you have seen this before or this is obvious, you can skip this section. Otherwise this may help.}
+This relation may not be trivial. If you don't see it, here's some intuition. Recall the identity matrix in ESC103 is written as 
+
+\begin{equation}
+    \1\ve x=\1(x_1\ve e_1+x_2\ve e_2+x_3\ve e_3+x_4\ve e_4)\equiv\begin{pmatrix}
+        1 & 0 & 0 & 0\\
+        0 & 1 & 0 & 0\\
+        0 & 0 & 1 & 0\\
+        0 & 0 & 0 & 1
+    \end{pmatrix}\begin{pmatrix}
+        x_1\\x_2\\x_3\\x_4
+    \end{pmatrix}
+\end{equation}
+
+See what the rows of this matrix is? They are the transpose of the basis vectors. You know how to do a matrix vector product. If you calculate it, you'll get 
+
+\begin{equation}
+    \begin{pmatrix}
+        \ve e_1^t\ve x\\
+        \ve e_2^t\ve x\\
+        \ve e_3^t\ve x\\
+        \ve e_4^t\ve x
+    \end{pmatrix}=\sum_{i=1}^4 (\ve e_i\cdot\ve x)\ve e_i
+\end{equation}
+
+Note that in $\R^n$, the dot product between two vectors $\ve a$ and $\ve b$ is $\ve a^t \ve b$. Look at what this looks like? equation \eqref{6}.
+
+Now we see this, it's very simple from here. 
+
+The fourier coefficients for $\ve e_n$ is just $\ve e_n\cdot f$.
+
+\section{Derivation of the Basic Formulas}
+
+Equation \eqref{6} is the statement of a fourier series. We can split it into $n<0, n=0$, and $n>0$ to return it to the form James (Davis) presented. Defining the following terms: 
+\begin{enumerate}
+    \item $1\footnote{Note this is \textbf{not} the identity. It is the function that is 1 everywhere.}\cdot f\equiv a_0$
+    \item $\ve e_{-i}\cdot f\equiv a_i, i=1,2,3,\dots$
+    \item $\ve e_i\cdot f\equiv b_i, i=1,2,3,\dots$
+\end{enumerate}\label{myList}
+Now manipulating the original equation
+\begin{align}
+    f&=(\ve e_0\cdot f)\ve e_0+\sum_{n=1}^\infty(\ve e_{-i}\cdot f)\ve e_{-i}+\sum_{n=1}^\infty(\ve e_i\cdot f)\ve e_i\\
+    &\equiv\left(\frac{1}{\sqrt 2}\cdot f\right)\frac{1}{\sqrt 2}+\sum_{n=1}^\infty(\ve e_{-i}\cdot f)\cos(ix)+\sum_{n=1}^\infty(\ve e_i\cdot f) \sin(ix)\\
+    &\equiv\frac{1}{2} f+\sum_{n=1}^\infty a_i\cos(ix)+\sum_{n=1}^\infty b_i \sin(ix)
+\end{align}
+
+\section{Generalization}
+
+For square-integrable functions $f:(a,b)\to\R$, The dot product is slightly modified from equation \eqref{dot} (by just multiplying by a constant) to be
+\begin{equation}
+    f\cdot g=\frac{2}{b-a}\int_a^b f(x)g(x)\dd x
+\end{equation}
+
+The orthanormal basis would be
+$\{1/\sqrt 2, \cos(n\omega (x-\phi)), \sin(n\omega (x-\phi))\}, n=1,2,3,\dots$, with $\displaystyle{\omega = \frac{2\pi}{b-a}}$ and $\displaystyle{\phi = \frac{a+b}{2}}$.
+
+This is done by translating and stretching functions. like $g(x)=f(x-3)$ kind of moves $f$ to the right by 3, and $h(x)=f(2x)$ kind of squishes $f$. Basic highschool stuff here.
+
+The coefficients can be computed in the same fashion as \ref{myList} or from equation \eqref{6} using the dot product.
+
+\section{Periodic Functions}
+
+We don't really know why we are writing anything here. The basis vectors are functions that are peroidic with period $b-a$, so if your function is periodic with period $b-a$, this works for every period, and thus the entire function.
+
+\section{Final Remarks}
+Praxis is bad, and \href{https://www8.physics.utoronto.ca/~vutha/dreadful_dreck.html}{Prof. Vutha spitting fax} (Creds: \href{https://discord.com/channels/701521452662390854/793976446472159272/818334233276841996}{civsub102})
+
+\end{document}
