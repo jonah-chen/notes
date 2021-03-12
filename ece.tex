@@ -3,6 +3,7 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{physics}
+\usepackage{tikz}
 \usepackage[american]{circuitikz}
 \usepackage{physoly}
 \usepackage{siunitx}
@@ -1790,6 +1791,14 @@ Where $v_{oc}$ and $i_{sc}$ \textbf{must} conform to PSC.
     \end{equation}
 \end{derivation}
 
+\begin{center}
+    \begin{tikzpicture}
+        \begin{axis}
+            \addplot[color=red]{exp(-x)};
+        \end{axis}
+    \end{tikzpicture}
+\end{center}
+
 \begin{definition}
     We define the \textit{time constant}
     \begin{equation}
@@ -1806,6 +1815,121 @@ Where $v_{oc}$ and $i_{sc}$ \textbf{must} conform to PSC.
         w(0)=\frac{1}{2}CV_0^2
     \end{equation}
     \item If a capacitor that is connected to an interconnection of resistors (in series), the capacitor voltage can be found by substituting the Thevenin resistance for $R$ in \eqref{rc-voltage}.
+\end{itemize}
+
+\begin{example}
+    The switch was closed for a long time before time $t=0$. At $t=0$, the switch is opened. Find the transient behavior of $v_x$ and $i_x$.
+    \begin{center}
+        \begin{circuitikz}
+            \draw (0,3) 
+            to[V=\SI{30}{V}] (0,0)
+            to(5,0)
+            to[R=\SI{5}{\ohm}](5,3)
+            to[switch](3,3)
+            to[R=\SI{4}{\ohm}](0,3);
+
+            \draw(5,3) 
+            to(7,3)
+            to[R=\SI{8}{\ohm}, i=$i_x$](10,3)
+            to[R=\SI{12}{\ohm}, v=$v_x$](10,0)
+            to(3,0);
+
+            \draw (7,3)
+            to[C=\SI{0.1}{F}, v=$v_c$](7,0);
+        \end{circuitikz}
+    \end{center}
+\end{example}
+
+\begin{sol}
+    At steady state, the capacitor behaves like a open circuit. Opening the capacitor, the resistors on the right side of the circuit is connected in series with an equivalent resistance of \SI{20}{\ohm}. This is connected to a parellel with \SI{5}{\ohm} resistor with the equivalent resistance of \SI{4}{\ohm}. Using the voltage division principle, $v_c=\SI{15}{V}, t<0$.\\\\
+    For $t>0$ when the switch is opened, the left hand side of the circuit is disconnected from the circuit, thus, the circuit becomes a source free RC circult. The equivalent resistance is now $R_{eq}=5||(8+12)=\SI{4}{\ohm}$. Since the capacitor voltage cannot change abruptly, use \eqref{cap} to find
+    \begin{equation}
+        v_c(t)=15 e^{-2.5t}\, \si{V}
+    \end{equation}
+
+    Use the voltage division principle to find 
+    \begin{equation}
+        v_x(t)=v_c(t)\frac{12}{12+8}=9e^{-2.5t}\,\si{V}
+    \end{equation}
+
+    Using ohm's law
+    \begin{equation}
+        i_x(t)=\frac{v_x(t)}{12}=0.75e^{2.5t}\,\si{A}
+    \end{equation}
+\end{sol}
+
+\subsection{Step Response of an RC Circuit}
+
+\begin{definition}
+    A step response, given by the Heaviside theta function (or step function) is a common signal for circuit analysis.
+    \begin{equation}
+        \Theta(x)=\begin{cases}
+            0 & t<0\\
+            1 & t>0
+        \end{cases}
+    \end{equation}
+    This is the reasoning behind the name of this circuit, as the voltage as a function of time behaves like the step function.
+\end{definition}
+\begin{derivation}
+    \begin{center}
+        \begin{circuitikz}
+            \draw (0,3) 
+            to[V=$V_s$] (0,0)
+            to(5,0)
+            to[C=$C$,v<=$v_c$] (5,3)
+            to [switch,i<=$i_c$](3,3)
+            to[R=$R$] (0,3);
+        \end{circuitikz}
+    \end{center}
+    Use KVL in the clockwise direction,
+    \begin{equation}
+        v_c-V_s+Ri_c=0
+    \end{equation}
+    Replace $i_c$ with $C\dot v_c$,
+    \begin{equation}
+        v_c-V_s+RC\dot v_c = 0
+    \end{equation}
+    This is again a seperable first order differential equation with the general solution 
+    \begin{equation}
+        v_c(t)=V_s+A\exp(-\frac{t}{RC})
+    \end{equation}
+    With the initial condition $v_c(0)=V_0$,
+    \begin{equation}
+        v_c(t)=V_s+(V_0-V_s)e^{-\frac{t}{RC}}
+    \end{equation}
+    For the current,
+    \begin{equation}
+        i_c(t)=C\dot v_c(t)=\frac{V_s-V_0}{R}e^{-\frac{t}{RC}}
+    \end{equation}
+\end{derivation}
+
+\begin{itemize}
+    \item For $V_s>V_0$, here $V_s=5, V_0=10$ (red); and $V_0<V_s$: $V_s=5, V_0=0$ (blue)
+    \begin{center}
+        \begin{tikzpicture}
+            \begin{axis}
+                \addplot[color=red][domain=0:5]{(5-exp(-x)*5)};
+                \addplot[color=blue][domain=0:5]{(5+exp(-x)*5)};
+            \end{axis}
+        \end{tikzpicture}
+    \end{center}
+    \item The current for the conditions would be 
+    \begin{center}
+        \begin{tikzpicture}
+            \begin{axis}
+                \addplot[color=red][domain=0:5]{exp(-x)*5};
+                \addplot[color=blue][domain=0:5]{exp(-x)*-5};
+            \end{axis}
+        \end{tikzpicture}
+    \end{center}
+    \item For an arbiturary circuit connected to a capacitor, find the Thevenin equivalent and substitute $V_{th}$ and $R_{th}$ in place of $V_s$ and $R$.
+    \begin{equation}
+        v_c(t)=v_c(\infty)+(v_c(0)-v_c(\infty))\exp(\frac{-t}{R_{th}C})
+    \end{equation}
+    \item This can be split into the forced response (first) and the natural response term (second).
+    \begin{equation}
+        v_c(t)=V_s(1-e^{-\frac{t}{RC}})+V_0e^{-\frac{t}{RC}}
+    \end{equation}
 \end{itemize}
 
 
