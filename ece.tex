@@ -1550,7 +1550,41 @@ Where $v_{oc}$ and $i_{sc}$ \textbf{must} conform to PSC.
 \section{Operational Amplifier: Op-Amp}
 
 
-
+\subsection{Difference Amplifier}
+\begin{derivation}
+    \begin{center}
+        \begin{circuitikz}
+            \draw 
+            (0,0) node[op amp](opamp){}
+            (opamp.+) to (-2,-0.5)
+            to[R=$R_4$](-2,-3)node[ground]{}
+            (opamp.-) to (-2,0.5)node[below]{$v_a$}
+            to[R=$R_1$](-6,0.5)
+            to[V=$v_1$](-6,-3)
+            to[short,-o](3,-3)node[above]{$-$}
+            (opamp.out) to[short,-o] (3,0)node[above]{$+$};
+            \draw (-2,-0.5) node[above]{$v_b$}
+            to[R=$R_3$](-4,-0.5)
+            to[V=$v_2$](-4,-3);
+            \draw (-2,0.5) 
+            to(-2,2)
+            to[R=$R_2$](2,2)
+            to(2,0);
+        \end{circuitikz}
+    \end{center}
+    Use KCL at node A.
+    \begin{equation}
+        \frac{v_a-v_1}{R_1}+\frac{v_a-v_0}{R_2}=0
+    \end{equation}
+    Use KCL at node B. 
+    \begin{equation}
+        \frac{v_b}{R_4}+\frac{v_b-v_2}{R_3}=0
+    \end{equation}
+    Solving for $v_0$ using computer algebra software yields 
+    \begin{equation}
+        v_0=\frac{R_2(1+R_1/R_2)}{R_1(1+R_3/R_4)}\, v_2-\frac{R_2}{R_1}\, v_1
+    \end{equation}
+\end{derivation}
 
 
 
@@ -1904,19 +1938,20 @@ Where $v_{oc}$ and $i_{sc}$ \textbf{must} conform to PSC.
 \end{derivation}
 
 \begin{itemize}
-    \item For $V_s>V_0$, here $V_s=5, V_0=10$ (red); and $V_0<V_s$: $V_s=5, V_0=0$ (blue)
+    \item For $V_s>V_0$, here $V_s=5, V_0=10$ (red); and $V_0<V_s$: $V_s=5, V_0=0$ (blue). The source voltage is denoted in green.
     \begin{center}
         \begin{tikzpicture}
-            \begin{axis}
+            \begin{axis}[xlabel=time,ylabel=$v_c(t)$]
                 \addplot[color=red][domain=0:5]{(5-exp(-x)*5)};
                 \addplot[color=blue][domain=0:5]{(5+exp(-x)*5)};
+                \addplot[color=green][domain=0:5]{5};
             \end{axis}
         \end{tikzpicture}
     \end{center}
     \item The current for the conditions would be 
     \begin{center}
         \begin{tikzpicture}
-            \begin{axis}
+            \begin{axis}[xlabel=time,ylabel=$i_c(t)$]
                 \addplot[color=red][domain=0:5]{exp(-x)*5};
                 \addplot[color=blue][domain=0:5]{exp(-x)*-5};
             \end{axis}
@@ -1924,7 +1959,7 @@ Where $v_{oc}$ and $i_{sc}$ \textbf{must} conform to PSC.
     \end{center}
     \item For an arbiturary circuit connected to a capacitor, find the Thevenin equivalent and substitute $V_{th}$ and $R_{th}$ in place of $V_s$ and $R$.
     \begin{equation}
-        v_c(t)=v_c(\infty)+(v_c(0)-v_c(\infty))\exp(\frac{-t}{R_{th}C})
+        v_c(t)=v_c(\infty)+(v_c(0)-v_c(\infty))\exp(\frac{-t}{R_{th}C})\label{150}
     \end{equation}
     \item This can be split into the forced response (first) and the natural response term (second).
     \begin{equation}
@@ -1932,7 +1967,352 @@ Where $v_{oc}$ and $i_{sc}$ \textbf{must} conform to PSC.
     \end{equation}
 \end{itemize}
 
+\begin{example}
+    The switch has been closed for a long time and opened at $t=0$. Find the transient behavior or $i_x$.
+    \begin{center}
+        \begin{circuitikz}
+            \draw (0,3) 
+            to[V=\SI{30}{V}] (0,0)
+            to(3,0)
+            to[R=\SI{20}{\ohm}](3,3)
+            to[R=\SI{10}{\ohm}, i<=$i_x$](0,3);
+    
+            \draw(3,3) 
+            to(6,3)
+            to[switch](8,3)
+            to[V=\SI{10}{V}](8,0)
+            to(3,0);
+    
+            \draw (5,3)
+            to[C=\SI{0.25}{F}, v=$v_c$](5,0);
+        \end{circuitikz}
+    \end{center}
+\end{example}
+\begin{sol}
+    For time $t<0$, $v_c=\SI{10}{V}$. Write KVL for the outer loop,
+    \begin{equation}
+        -30+10i_x+10=0\implies i_x=\SI{2}{A}
+    \end{equation}
+    For time $t>0$, the switch is opened and the \SI{10}{V} voltage source is disconnected from the circuit. We know the initial voltage is $v_c(0)=\SI{10}{V}$. 
+    We need to just find the Thevenin equivalent to the circuit connected to the capacitor.
+    \begin{center}
+        \begin{circuitikz}
+            \draw (0,3) 
+            to[V=\SI{30}{V}] (0,0)
+            to(3,0)
+            to[R=\SI{20}{\ohm}](3,3)
+            to[R=\SI{10}{\ohm}, i<=$i_x$](0,3);
+    
+            \draw(3,3) to[short,-o](4,3);
+            \draw(3,0) to[short,-o](4,0);
+        \end{circuitikz}
+    \end{center}
+    The resistors are connected in series. The open circuit voltage is the same as the voltage across the \SI{20}{\ohm} resistor. Using the voltage division principle,
+    \begin{equation}
+        v_{th} = 30\, \frac{20}{20+10}=\SI{20}{V}
+    \end{equation}
+    Use the first method to find the Thevenin resistance. Deactivating the voltage source, the two resistors are connected in parellel. Thus, the Thevenin resistance is 
+    \begin{equation}
+        R_{th}=\frac{20\times 10}{20+10}=\frac{20}{3}\,\Omega
+    \end{equation}
+    Now using \eqref{150}, 
+    \begin{equation}
+        v_c(t)=20+(10-20)\exp(-\frac{t}{(\frac{20}{3})(20)})=20-10e^{-0.6t}\, \si{V}
+    \end{equation}
+    
+    To find $i_x$, write KVL for the outer loop,
+    \begin{equation}
+        -30+10i_x+v_c(t)=0
+    \end{equation}
+    \begin{equation}
+        i_x=\frac{30-v_c(t)}{10}=1+e^{-0.6t}\si{A}
+    \end{equation}
+    Plotting the current, 
+    \begin{center}
+        \begin{tikzpicture}
+            \begin{axis}[xlabel=t,ylabel=$i_x(t)$]% coordinates%\addplot coordinates {};%\end{}
+                \addplot[color=red][domain=-3:0]{2};
+                \addplot[color=red][domain=0:5]{(1+exp(x*(-0.6)))};
+            \end{axis}
+        \end{tikzpicture}
+    \end{center}
+\end{sol}
+\subsection{Source Free RL Circuits}
 
+\begin{derivation}
+    Before $t=0$, the switch is open and the circuit is attached to an external circuit such that the inductor current is $i_L(0)=I_0$. At time $t=0$, the external circuit is disconnected and the switch is closed. 
+    \begin{center}
+        \begin{circuitikz}
+            \draw (0,3) 
+            to[L=$L$,v=$v_L$,i=$i_L$](0,0)
+            to(4,0)
+            to[R=$R$,v<=$v_R$] (4,3)
+            to[switch](0,3);
+        \end{circuitikz}
+    \end{center}
+    We know for an inductor $v_L=L\dot i_L$ and for a resistor $v_R=-Ri_L$. Writing KVL in the counterclockwise direction yields
+    \begin{equation}
+        0=v_L-v_R=L\dot i_L+Ri_L
+    \end{equation}
+    This is again a simple seperable first order differential equation with the general solution 
+    \begin{equation}
+        i_L(t)=Ae^{-tR/L}
+    \end{equation}
+    Using the initial condition $i_L(0)=I_0$,
+    \begin{equation}
+        i_L(t)=I_0e^{-tR/L}\label{sf:inductor:i}
+    \end{equation}
+    Plotting this,
+    \begin{center}
+        \begin{tikzpicture}
+            \begin{axis}[xlabel=t,ylabel=$i_L(t)$]
+                \addplot[color=red][domain=-1:0]{1};
+                \addplot[color=red][domain=0:5]{exp(-x)};
+                \addplot[color=blue][domain=0:1]{1-x};      
+            \end{axis}
+        \end{tikzpicture}
+    \end{center}
+    The time constant is
+    \begin{equation}
+        \tau = \frac{L}{R}
+    \end{equation}
+    To find the voltage, use
+    \begin{equation}
+        v_L=L\dot i=-RI_0e^{-tR/L}\label{sf:inductor:v}
+    \end{equation}
+    Plotting the voltage,
+    \begin{center}
+        \begin{tikzpicture}
+            \begin{axis}[xlabel=t,ylabel=$v_L(t)$]
+                \addplot[color=red][domain=-1:0]{0};
+                \addplot[color=red][domain=0:5]{-exp(-x)};
+            \end{axis}
+        \end{tikzpicture}
+    \end{center}
+    Note that the inductor voltage changes abruptly at $t=0$, which is okay. The inductor current cannot change abruptly.
+\end{derivation}
+\begin{example}
+    The switch has been closed for a long time. It is opened at $t=0$.
+    \begin{enumerate}
+        \item Find $i_0(t)$
+        \item What percentage of the energy stored in the inductor is dissipated in the \SI{10}{\ohm} resistor
+    \end{enumerate}
+    \begin{center}
+        \begin{circuitikz}
+            \draw (0,0)
+            to[I=\SI{20}{A}] (0,3)
+            to(2,3)
+            to[R=\SI{0.1}{\ohm}](2,0)
+            to(0,0);
+            \draw(2,3)
+            to[switch](5,3)
+            to[L=\SI{2}{H},i=$i_L$](5,0)
+            to (2,0);
+            \draw (5,3)
+            to[R=\SI{2}{\ohm}](8,3)
+            to[R=\SI{10}{\ohm}](8,0)
+            to(5,0);
+            \draw (8,3)
+            to[short,i=$i_0$] (10,3)
+            to[R=\SI{40}{\ohm},v=$v_0$](10,0)
+            to(8,0);
+        \end{circuitikz}
+    \end{center}
+\end{example}
+\begin{sol}
+    First find the current for time $t<0$. Since the switch is closed for a long time, the inductor behaves like a short circuit path. Thus, all the current fro the current source would path through the inductor, so $i_L=\SI{20}{A}$, $i_0=0$\\\\
+    For $t>0$, the left hand side of the switch is disconnected from the circuit as the switch is opened. We know that the current of an inductor cannot change abruptly, thus $i_L(0)=\SI{20}{A}$. The equivalent resistance of the three resistors is \SI{10}{\ohm}. Using \eqref{sf:inductor:i}
+    \begin{equation}
+        i_L(t)=I_0e^{-tR/L}=20e^{-10t/2}=20e^{-5t}
+    \end{equation}
+    Using the current division principle,
+    \begin{equation}
+        i_0(t)=-i_L(t)\frac{10}{10+40}=-4e^{-5t}\, \si{A}
+    \end{equation}
+    Then, find the energy stored in the inductor at $t=0$.
+    \begin{equation}
+        w_L=\frac{1}{2}Li_L^2(0)=\frac{1}{2}\times 2\times 20^2=\SI{400}{J}
+    \end{equation}
+    I don't know how he got here
+    \begin{equation}
+        v_0=40i_0=-160e^{-5t}
+    \end{equation}
+    \begin{align}
+        P_{\SI{10}{\ohm}}&=v_0i=\frac{v_0^2}{R}=2560e^{-10t}\si{W}\\
+        w_{\SI{10}{\ohm}}&=\int_0^\infty P_{\SI{10}{\ohm}}\dd t=\SI{256}{J}
+    \end{align}
+    The ratio would be $256/400=64\%$.
+\end{sol}
+
+\begin{center}
+    \begin{circuitikz}
+        \draw (4,3)node[right]{a}
+        to[short,o-](3,3)
+        to[R=\SI{1.2}{k\ohm}](0,3)
+        to[V=\SI{9.6}{V}] (0,0)
+        to[short,-o] (4,0)node[right]{b};
+    \end{circuitikz}
+\end{center}
+
+\subsection{Step Response of an RL Circuit}
+\begin{derivation}
+    Consider the following circuit at $t<0$ is connected to an external circuit such that $i_L(0^-)=I_0$. At time $t=0$ the external circuit is disconnected and the switch is closed.
+    \begin{center}
+        \begin{circuitikz}
+            \draw (0,3) to[V=$V_s$]
+            (0,0) to (5,0)
+            to[L=$L$,v<=$v_L$,i<=$i_L$] (5,3)
+            to[switch](3,3)
+            to[R=$R$](0,3);
+        \end{circuitikz}
+    \end{center}
+    Write KVL for this loop in the clockwise direction.
+    \begin{equation}
+        -V_s+Ri_L+L\dot i_L=0
+    \end{equation}
+    This is a seperable first order differential equation with the general solution
+    \begin{equation}
+        i_L(t)=\frac{V_s}{R}+Ae^{-tR/L}
+    \end{equation}
+    Using the initial condition $i_L(0)=I_0$,
+    \begin{equation}
+        i_L(t)=\frac{V_s}{R}+\left(I_0-\frac{V_s}{R}\right)e^{-tR/L}
+    \end{equation}
+    The time constant for this circuit is 
+    \begin{equation}
+        \tau=\frac{L}{R}
+    \end{equation}
+\end{derivation}
+
+\begin{itemize}
+    \item Assuming $V_s/R>I_0$, here $V_s/R=2$ and $I_0=1$.
+    \begin{center}
+        \begin{tikzpicture}
+            \begin{axis}[xlabel=$t$,ylabel=$i_L(t)$]
+                \addplot[color=red][domain=-2:0]{1};
+                \addplot[color=red][domain=0:10]{2-exp(-x)};
+            \end{axis}
+        \end{tikzpicture}
+    \end{center}
+    \item We can seperate the inductor current into natural response and forced response terms respectively.
+    \begin{equation}
+        i_L(t)=I_0e^{-t/\tau}+\frac{V_s}{R}(1-e^{-t/\tau})
+    \end{equation}
+    \item If an inductor is connected to an interconnection of inductors and sources, we can reduce the circuit to a Thevenin equivalent circuit and it behaves like what is derived, with $R=R_{th}$ and $V=V_{th}$.
+    \item Once an RL circuit with a source approaches steady state DC condition, the inductor can be replaced with a short circuit path. Thus,
+    \begin{equation}
+        i_L(\infty)=\frac{V_s}{R}
+    \end{equation}
+    \item Substituting this result gives another expression for the inductor current 
+    \begin{equation}
+        i_L(t)=i_L(\infty)+[i_L(0)-i_L(\infty)]e^{-t/\tau}
+    \end{equation}
+    \item Suppose the switch is closed not at $t=0$, but $t=t_0$, the inductor current would be 
+    \begin{equation}
+        i_L(t)=i_L(\infty)+[i_L(t_0)-i_L(\infty)]\exp(\frac{t_0-t}{\tau})
+    \end{equation}
+\end{itemize}
+\begin{example}
+    The switch has been closed for a long time. It is opened at time $t=0$. Find the relation for $i$.
+    \begin{center}
+        \begin{circuitikz}
+            \draw (0,3)
+            to[V=\SI{10}{V}] (0,0)
+            to(6,0)
+            to[L=\SI{1/3}{H},i<=$i$] (6,3)
+            to[R=\SI{3}{\ohm}] (3,3)
+            to[R=\SI{2}{\ohm}] (0,3);
+            \draw (6,3)
+            to (6,5)
+            to[switch](3,5)
+            to(3,3);
+        \end{circuitikz}
+    \end{center}
+\end{example}
+\begin{sol}
+    For time $t<0$, the switch is closed for a long time. Thus, no current flows through the \SI{3}{\ohm} resistor and the inductor behaves like a short circuit. Thus, $i=10/2=\SI{5}{A}$.
+    
+    For time $t>0$, the switch is opened. The Thevenin resistance is just the equivalent resistence \SI{5}{\ohm}. Thus the time constant is $\tau=L/R=\SI{1/15}{\ohm}$. At time $t\to\infty$, the circuit is in steady state DC condition thus $i=V/R=\SI{2}{A}$. We know the inductor current is 
+    \begin{equation}
+        i(t)=i_L(t)=i_L(\infty)+[i_L(0)-i_L(\infty)]e^{-t/\tau}=2+3e^{-15t}
+    \end{equation}
+    
+    To verify the answer, it is possible to write KVL (clockwise) for the loop 
+    \begin{equation}
+        -10+5i_L+\frac{1}{3}\dot i_L=0
+    \end{equation}
+    If the solution solves the differential equation and $i_L(0)$ is correct, then the solution is correct.
+\end{sol}
+\section{AC Circuits}
+\subsection{Complex numbers}
+\begin{itemize}
+    \item Electric engineers like to claim that they are different and they use $j$ as the imaginary number where $j^2=-1$.
+    \item A complex number can be represented in two ways:
+    \begin{enumerate}
+        \item Rectangular form: $z=x+jy$. $(x,y)$ can be seen as the coordinates of a point on the complex plane.
+        \item Polar form: $z=re^{i\theta}\equiv r\angle\theta$. $r$ is the distance from the origin, $\theta$ is the angle from the positive real axis.
+    \end{enumerate}
+    \item To convert a complex number from rectangular to polar form
+    \begin{align}
+        r&=\sqrt{x^2+y^2}\\
+        \theta&=\begin{cases}
+            \arctan\left(\frac{y}{x}\right) & x>0\\
+            \pi + \arctan\left(\frac{y}{x}\right) & x < 0
+        \end{cases}
+    \end{align}
+    \item To convert a complex number from polar to rectangular form,
+    \begin{align}
+        x&=r\cos\theta\\
+        y&=r\sin\theta
+    \end{align}
+    \item To perform arithmitic on complex numbers $z_1=x_1+jy_1=r_1e^{i\theta_1}, z_2=x_2+jy_2=r_2e^{i\theta_2}$, 
+    \begin{align}
+        z_1\pm z_2&=(x_1\pm x_2)+j(y_1\pm y_2)\\
+        z_1z_2&=r_1r_2e^{j(\theta_1+\theta_2)}\\
+        &=x_1x_2-y_1y_2+j(x_1y_2+x_2y_1)\\
+        \frac{z_1}{z_2}&=\frac{r_1}{r_2}e^{j(\theta_1-\theta_2)}\\
+        &=\frac{x_1x_2+y_1y_2}{x_2^2+y_2^2}+j\frac{x_2y_1-x_1y_2}{x_2^2+y_2^2}
+    \end{align}
+    \item Note the convention for writing complex numbers should not have $i$ in the denominator. To divide two complex numbers, multiply by the numerator and denominator by the complex conjugate of the denominator.
+    \begin{equation}
+        z_1^*\equiv\overline{z_1}=x_1-jy_1=r_1e^{-i\theta_1}
+    \end{equation}
+    \item The norm-square of a complex number is $zz^*=x^2+y^2=r^2$
+\end{itemize}
+\subsection{Sinusoids and Phasors}
+\begin{definition}
+    AC Circuits are circuits with the voltage and current signals changes with respect to time. AC circuits we will analyze will be those that vary sinusoidally, since all signals can be decomposed into sinusoidal voltage and current sources (using methods like fourier or laplace transforms)
+\end{definition}
+\begin{itemize}
+    \item The \textbf{general} form of a sinusoidal signal (voltage):
+    \begin{equation}
+        v(t)=V_m\sin(\omega t+\alpha)
+    \end{equation}
+    \begin{itemize}
+        \item $V_m$ is the magnitude or the amplitude of the signal. The unit here is volt. The sin function is dimensionless, and the argument is also dimensionless.
+        \item $\omega$ is the angular frequency, with units radians per second.
+        \item $t$ is time, with common unit of second.
+        \item $\alpha$ is the initial phase angle or phase, commonly in radians.  
+    \end{itemize}
+    \item \textbf{Note} if $\alpha$ is expressed in degrees, it must be converted to radians by multiplying by $\pi/180$ before it is added to $\omega t$.
+\end{itemize}
+\begin{center}
+    \begin{tikzpicture}
+        \begin{axis}[xlabel=$\omega t$,ylabel=$v(t)$]
+            \addplot[color=red][domain=0:8]{sin(x*57.296)*2};
+            \addplot[color=green][domain=0:8]{cos(x*57.296)*2};
+        \end{axis}
+    \end{tikzpicture}
+\end{center}
+\begin{itemize}
+    \item Two plots of sinusoidal voltages are shown with amplitude $V_m=2$. The red plot has $\alpha=0$ and the green plot has $\alpha=\frac{\pi}{2}$
+    \item A common way to show the difference between two sinusoidal signal is called the \textit{Phase Lead} or \textit{Phase Lag}. 
+    \begin{itemize}
+        \item The green signal leads the red signal by $\frac{\pi}{2}$ (or \SI{90}{\degree}). 
+        \item The red signal lags the green the signal by $\frac{\pi}{2}$ (or \SI{90}{\degree}).
+    \end{itemize}
+    \item Usually, only angles between $0$ to $\pi$ is used to express phase lead or phase lag of sinusoidal signals.
+\end{itemize}
 
 % mouse hover event
 % get mouse position (system.windows.form.cursor.positon)
