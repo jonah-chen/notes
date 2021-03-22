@@ -2279,6 +2279,15 @@ Where $v_{oc}$ and $i_{sc}$ \textbf{must} conform to PSC.
     \end{equation}
     \item The norm-square of a complex number is $zz^*=x^2+y^2=r^2$
 \end{itemize}
+
+\subsection{Trignometric Identities}
+\begin{align}
+    \sin(\alpha\pm\SI{180}{\degree})&=-\sin\alpha\\
+    \cos(\alpha\pm\SI{180}{\degree})&=-\cos\alpha\\
+    \sin(\alpha\pm\SI{90}{\degree})&=\pm\cos\alpha\\
+    \sin(\alpha\pm\SI{90}{\degree})&=\mp\sin\alpha
+\end{align}
+
 \subsection{Sinusoids and Phasors}
 \begin{definition}
     AC Circuits are circuits with the voltage and current signals changes with respect to time. AC circuits we will analyze will be those that vary sinusoidally, since all signals can be decomposed into sinusoidal voltage and current sources (using methods like fourier or laplace transforms)
@@ -2313,6 +2322,234 @@ Where $v_{oc}$ and $i_{sc}$ \textbf{must} conform to PSC.
     \end{itemize}
     \item Usually, only angles between $0$ to $\pi$ is used to express phase lead or phase lag of sinusoidal signals.
 \end{itemize}
+\begin{definition}
+    \begin{itemize}
+        \item The \textbf{fundamental period} of a sinusoidal signal is the smallest positive period
+        \begin{equation}
+            T_0=\frac{2\pi}{\omega}
+        \end{equation}
+        \item The \textbf{frequency} is defined as 
+        \begin{equation}
+            f=\frac{1}{T_0}=\frac{\omega}{2\pi}
+        \end{equation}
+        The unit of frequency is in \si{\per\second} or \si{\hertz}. In north america, the standard frequency is \SI{60}{\hertz} and in the rest of the world, the frequency is \SI{50}{\hertz}.
+    \end{itemize}
+\end{definition}
+
+\begin{example}
+    What is the phase difference between the following sinusoidal signals. 
+    \begin{enumerate}
+        \item \begin{align*}
+            v_1(t)&=A_1\sin(\omega_1t+10\si{\degree})\\
+            v_2(t)&=A_2\sin(\omega_2t+70\si{\degree})
+        \end{align*}
+        \item \begin{align*}
+            v_1(t)&=-10\cos(\omega t+\SI{50}{\degree})\\
+            v_2(t)&=12\sin(\omega t-\SI{10}{\degree})
+        \end{align*}
+    \end{enumerate}
+\end{example}
+\begin{sol}
+    \begin{enumerate}
+        \item We first notice that the frequency given for $v_1$ is $\omega_1$ and $v_2$ is $\omega_2$. Note that \textbf{if $\omega_1\neq\omega_2$, the phase difference is not defined for $v_1$ and $v_2$.}
+
+        If $\omega_1=\omega_2$, the phase difference 
+        \begin{equation}
+            \Delta\alpha=\SI{70}{\degree}-\SI{10}{\degree}=\SI{60}{\degree}
+        \end{equation}
+        Since we subtracted the phase angle of $v_2$ from that of $v_1$, thus this shows $v_2$ \textbf{leads} $v_1$ by \SI{60}{\degree}.
+        \begin{center}
+            \begin{tikzpicture}
+                \begin{axis}[xlabel=$\omega t$, ylabel=$v(t)$]
+                    \addplot[color=red][domain=0:6]{sin(x*57.296+10)*2};
+                    \addplot[color=green][domain=0:6]{sin(x*57.296+70)*2};
+                \end{axis}
+            \end{tikzpicture}
+        \end{center}
+        \item Note when comparing the phase difference between two sinusoidal signals, the trignometric function used must be the same as well as the magnitude of the ampliutude. Thus, $v_1(t)$ must be converted using the trignometric identities to 
+        \begin{equation}
+            v_1(t)=10\sin(\omega t-\SI{40}{\degree})
+        \end{equation}
+        Then, comparing that with the phase of $v_2$, 
+        \begin{equation}
+            \Delta\alpha=(\SI{-10}{\degree})-(\SI{-40}{\degree})=\SI{30}{\degree}
+        \end{equation}
+        Therefore, $v_2$ lags $v_1$ by \SI{30}{\degree}, or equivalently, $v_1$ lags $v_2$ by \SI{30}{\degree}.
+    \end{enumerate}
+\end{sol}
+\begin{definition}
+    A \textbf{Phasor} is an object used for AC circuit analysis used to describe sinusoidal signals. Take the voltage 
+    \begin{equation}
+        v(t)=V_m\cos(\omega t+\alpha)=\text{Re}(V_me^{j(\omega t+\alpha)})=\text{Re}(V_me^{j\alpha}e^{j\omega t})
+    \end{equation}
+    If the angular frequency is known, $v(t)$ can be uniquely determined using a complex number whose magnitude and angle are $V_m$ and $\alpha$ respectively. This complex number 
+    \begin{equation}
+        \mathbf V=V_me^{j\alpha}
+    \end{equation}
+    $\mathbf V$ is known as the phasor for $v(t)$. The phasor is usually denoted with an uppercase letter (also boldface in print, but just uppercase for written).
+\end{definition}
+\begin{itemize}
+    \item Phasors are used because it is very difficult to do arithmitic on sinusoidal, but for complex number arithmitic is much simpler. 
+    \item To solve an AC circuit, it is common to first transform the problem from the time domain to the phasor domain, solve it there, then transform the solution back into the time domain. 
+    \item Since a phasor is determined by a magnitude and angle, they can be treated as vectors. 
+\end{itemize}
+\begin{example}
+    Show the phasor diagram for the following AC voltage and current. Find their phase difference.
+    \begin{align*}
+        v(t)&=V_m\cos(377t+\SI{60}{\degree})\\
+        i(t)&=I_m\sin(377t+\SI{30}{\degree})
+    \end{align*}
+\end{example}
+\begin{sol}
+    For the voltage phasor, 
+    \begin{equation}
+        \mathbf V=V_me^{j\SI{60}{\degree}}=V_m\angle\SI{60}{\degree}
+    \end{equation}
+    For the current phasor, first change the $\sin$ function to $\cos$ function using the trignometric identity. Then,
+    \begin{equation}
+        \mathbf I=I_me^{-j\SI{60}{\degree}}=I_m\angle\SI{-60}{\degree}
+    \end{equation}
+    \begin{center}
+        \begin{tikzpicture}
+            \draw[thin,gray!40] (-2,-2) grid (2,2);
+            \draw[<->] (-2,0)--(2,0) node[right]{Re$(z)$};
+            \draw[<->] (0,-2)--(0,2) node[above]{Im$(z)$};
+            \draw[line width=2pt,blue,-stealth](0,0)--(1,1.732) node[anchor=south west]{$\boldsymbol{V}$};
+            \draw[line width=2pt,red,-stealth](0,0)--(1,-1.732) node[anchor=north east]{$\boldsymbol{I}$};
+          \end{tikzpicture}
+    \end{center}
+\end{sol}
+
+\begin{example}
+    Using phasors, find $i_1+i_2$.
+    \begin{align*}
+        i_1(t)&=4\cos(\omega t+\SI{30}{\degree})\\
+        i_2(t)&=5\sin(\omega t-\SI{20}{\degree})
+    \end{align*}
+\end{example}
+\begin{sol}
+    First convert these into phasors. Note to use the trignometric identity for $i_2$ to obtain
+    \begin{align*}
+        \mathbf I_1&=4\angle\SI{30}{\degree}\\
+        \mathbf I_2&=5\angle\SI{-110}{\degree}
+    \end{align*}
+    Add in the rectangular form, 
+    \begin{equation}
+        \begin{aligned}
+            \mathbf I_1+\mathbf I_2&=4\angle\SI{30}{\degree}+5\angle\SI{-110}{\degree}\\
+            &=4\cos(\SI{30}{\degree})+j4\sin(\SI{30}{\degree})+5\cos(\SI{-110}{\degree})+j5\cos(\SI{-110}{\degree})\\
+            &=1.754+j2.698\\
+            &=3.218\angle \SI{-56.98}{\degree}
+        \end{aligned}
+    \end{equation}
+    The sum of the two signals is then 
+    \begin{equation}
+        i_1+i_2=3.218\cos(\omega t-\SI{56.98}{\degree})
+    \end{equation}
+\end{sol}
+
+\subsection{Calculus with Phasors}
+\begin{proposition}
+    For a phasor $\mathbf Z$,
+    \begin{align}
+        \dot{\mathbf Z}&=j\omega\mathbf Z\\
+        \int \mathbf Z\, \dd t&=\frac{\mathbf Z}{j\omega}
+    \end{align}
+\end{proposition}
+\begin{prooof}
+    Take the phasor $\mathbf{V}=V_m\angle\phi=V_m e^{j\phi}$. Take the derivative of what the phasor represents
+    \begin{align}
+        v(t)&=V_m\cos(\omega t+\phi)\\
+        \dot v(t)&=-V_m\omega\sin(\omega t+\phi)=+V_m\omega\cos(\omega t+\phi+\SI{90}{\degree})
+    \end{align}
+    The phasor for $\dot v(t)$ is
+    \begin{equation}
+        \dot{\mathbf{V}}=V_m\omega e^{\omega t}e^{j\phi}e^{j\SI{90}{\degree}}=j\omega (V_me^{j\phi})=j\omega\mathbf V
+    \end{equation} 
+
+    Taking the integral of what the phasor represent,
+    \begin{equation}
+        \int v(t)\dd t=\frac{V_m}{\omega}\sin(\omega t+\phi)=\frac{V_m}{\omega}\cos(\omega t+\phi-\SI{90}{\degree})
+    \end{equation}
+    For the phasor, 
+    \begin{equation}
+        \int \mathbf{V}\dd t=\frac{V_m}{\omega}e^{j(\phi-\SI{90}{\degree})}=\frac{1}{j\omega}(V_me^{j\phi})=\frac{\mathbf V}{j\omega}
+    \end{equation}
+\end{prooof}
+
+\subsection{Phasor relation for the voltage and current of R, L, and C}
+\begin{itemize}
+    \item For a resistor, consider the current through a resistor $\mathbf I=I_m\angle\alpha$. Applying Ohm's law, 
+    \begin{equation}
+        \mathbf V=RI_m\angle \alpha=R\mathbf I
+    \end{equation}
+    \begin{center}
+        \begin{tikzpicture}
+            \draw[thin,gray!40] (-2,-2) grid (2,2);
+            \draw[<->] (-2,0)--(2,0) node[right]{Re$(z)$};
+            \draw[<->] (0,-2)--(0,2) node[above]{Im$(z)$};
+            \draw[line width=2pt,blue,-stealth](0,0)--(1.5,0.6) node[anchor=south west]{$\boldsymbol{V}$};
+            \draw[line width=2pt,red,-stealth](0,0)--(1,0.4) node[anchor=south]{$\boldsymbol{I}$};
+          \end{tikzpicture}
+    \end{center}
+    \item For an inductor, consider the current phasor in the inductor as $\mathbf I=I_m\angle\alpha$. It is known that $v(t)=L\dot i$, thus 
+    \begin{equation}
+        \mathbf V=j\omega L\mathbf I
+    \end{equation}
+    \begin{center}
+        \begin{tikzpicture}
+            \draw[thin,gray!40] (-2,-2) grid (2,2);
+            \draw[<->] (-2,0)--(2,0) node[right]{Re$(z)$};
+            \draw[<->] (0,-2)--(0,2) node[above]{Im$(z)$};
+            \draw[line width=2pt,blue,-stealth](0,0)--(-0.6,1.5) node[anchor=south west]{$\boldsymbol{V}$};
+            \draw[line width=2pt,red,-stealth](0,0)--(1,0.4) node[anchor=south]{$\boldsymbol{I}$};
+          \end{tikzpicture}
+    \end{center}
+    \item For a capacitor, consider the voltage phasor in the capacitor as $\mathbf V=V_m\angle\alpha$. It is known that $i(t)=C\dot v$,
+    \begin{equation}
+        \mathbf V=\frac{\mathbf I}{j\omega C}
+    \end{equation}
+    \begin{center}
+        \begin{tikzpicture}
+            \draw[thin,gray!40] (-2,-2) grid (2,2);
+            \draw[<->] (-2,0)--(2,0) node[right]{Re$(z)$};
+            \draw[<->] (0,-2)--(0,2) node[above]{Im$(z)$};
+            \draw[line width=2pt,blue,-stealth](0,0)--(0.6,-1.5) node[anchor=south west]{$\boldsymbol{V}$};
+            \draw[line width=2pt,red,-stealth](0,0)--(1,0.4) node[anchor=south]{$\boldsymbol{I}$};
+          \end{tikzpicture}
+    \end{center}
+\end{itemize}
+\subsection{KVL and KCL the phasor domain}
+\begin{proposition}
+    Suppose there is a loop in the circuit of $N$ circuit elements with voltage phasors $\mathbf V_1,\mathbf V_2,\dots,\mathbf{V_N}$ with the same (angluar) frequency $\omega$. Then, KVL for phasors requires 
+    \begin{equation}
+        \sum\mathbf V_n=\mathbf V_1+\mathbf V_2+\dots \mathbf V_N=0
+    \end{equation}
+\end{proposition}
+\begin{proposition}
+    Suppose a node with $N$ current paths and incoming current phasors $\mathbf I_1,\mathbf I_2,\dots,\mathbf{I_N}$ with the same (angluar) frequency $\omega$. Then, KCL for phasors requires
+    \begin{equation}
+        \sum \mathbf I_n=\mathbf I_1+\mathbf I_2+\dots \mathbf I_N=0
+    \end{equation}
+\end{proposition}
+\section{Impedence}
+\begin{definition}
+    Take an arbiturary circuit element with a sinusoidal voltage and current with the same frequency. The voltage and current phasors are $\mathbf V$ and $\mathbf I$ respectively. Then,
+    \begin{equation}
+        Z\equiv\frac{\mathbf V}{\mathbf I}=\frac{V_m\angle\theta_v}{I_m\angle\theta_i}=\frac{V_m}{I_m}\angle(\theta_v-\theta_i)
+    \end{equation}
+    Rewriting the impedence in rectangular form, 
+    \begin{equation}
+        Z\equiv R+jX
+    \end{equation}
+
+    \begin{itemize}
+        \item The real part of the impedence $R$ is called \textit{resistance}. 
+        \item The imaginary part of impedence $X$ is called \textit{reactance}. 
+        \item The units for $Z,R,X$ is Ohm.
+        \item \textbf{Note} if the passive sign convention does not hold for $\mathbf V$ and $\mathbf I$, then $Z=-\mathbf V/\mathbf I$.
+    \end{itemize}
+\end{definition}
 
 % mouse hover event
 % get mouse position (system.windows.form.cursor.positon)
