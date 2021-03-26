@@ -7,6 +7,8 @@
 \usepackage[american]{circuitikz}
 \usepackage{physoly}
 \usepackage{siunitx}
+\usepackage{bbm}
+
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.16} 
 
@@ -2549,8 +2551,157 @@ Where $v_{oc}$ and $i_{sc}$ \textbf{must} conform to PSC.
         \item The units for $Z,R,X$ is Ohm.
         \item \textbf{Note} if the passive sign convention does not hold for $\mathbf V$ and $\mathbf I$, then $Z=-\mathbf V/\mathbf I$.
     \end{itemize}
+
+    \begin{equation}
+        \det(\lambda \mathbbm{1}_{n\times n})=\lambda^n
+    \end{equation}
+\end{definition}
+\begin{itemize}
+    \item For DC circuits there is resistance and conductance. For AC circuits,
+\end{itemize}
+\begin{definition}
+    The admittance of an circuit element is with current phasor $\mathbf{I}$ and voltage phasor $\mathbf{V}$ is 
+    \begin{equation}
+        Y\equiv\frac{\mathbf I}{\mathbf V}=\frac{I_m}{V_m}\angle(\theta_i-\theta_v)
+    \end{equation}
+    Rewriting this in the rectangular form, 
+    \begin{equation}
+        Y=G+jB
+    \end{equation}
+    \begin{itemize}
+        \item The real part of the admittance $G$ is called \textit{conductance}.
+        \item The imaginary part of the admittance $B$ is called
+    \end{itemize}
 \end{definition}
 
+\subsection{Series and parellel connected impedances}
+\begin{proposition}
+    \begin{itemize}
+        \item The equivalent impedance of multiple circuit elements connected in series and parellel behaves the same as the resistance in DC circuits. 
+        \item The equivalent admittance for multiple circuit elements connected in parellel behaves the same as conductance in DC circuits.
+    \end{itemize}
+\end{proposition}
+
+\subsection{The impedance for the resistor, inductor, and capacitor}
+\begin{itemize}
+    \item For a resistor,
+    \begin{equation}
+        Z_R=\frac{\mathbf{V}}{\mathbf{I}}=\frac{R\mathbf I}{\mathbf I}=R
+    \end{equation}
+    \item The impedance of a resistor is the resistance itself lmao. In the complex plane, this is a positive real number.
+    \item For an inductor,
+    \begin{equation}
+        Z_L=\frac{\mathbf V}{\mathbf I}=\frac{j\omega L\mathbf I}{\mathbf I}=j\omega L    
+    \end{equation}
+    \item In the complex plane, the impedance of an inductor is on the positive imaginary axis.
+    \item Note that for the same inductor, the impedance is also dependent on the frequency of the circuit. 
+    \item In the limit where $\omega\to 0$, the impedance approaches 0, which is the reason that under steady state DC conditions, an inductor behaves like a short circuit.
+    \item For a capacitor, 
+    \begin{equation}
+        Z_C=\frac{\mathbf V}{\mathbf I}=\frac{\frac{-j}{\omega C}\mathbf I}{\mathbf I}=\frac{-j}{\omega C}=\frac{1}{\omega C}
+    \end{equation}
+    \item In the complex plane, the impedance of a capacitor is on the negative imaginary axis.
+\end{itemize}
+
+\subsection{The impedance of RL, RC, LC, and RLC circuits}
+\subsubsection{RL Circuit}
+\begin{center}
+    \begin{circuitikz}
+        \draw (0,0)node[left]{b}
+        to (2,0)
+        to[L=$L$](2,2)
+        to[R=$R$] (2,4)
+        to(0,4)node[left]{a};
+    \end{circuitikz}
+\end{center}
+\begin{equation}
+    Z_{RL}=Z_R+Z_L=R+j\omega L
+\end{equation}
+\begin{itemize}
+    \item $Z_{RL}$ is located in the first quadrant of the complex plane. The angle of the impedance is 
+    \begin{equation}
+        \angle Z_{RL}=\arctan(\frac{\omega L}{R})
+    \end{equation}
+    \item If $Z_R>>Z_L\iff R>>\omega L\implies\angle Z_{RL}\to\SI{0}{\degree}$
+    \item If $Z_R<<Z_L\iff R<<\omega L\implies\angle Z_{RL}\to\SI{90}{\degree}$
+    \item Because of this, the voltage of an RL circuit leads the current by an angle between \SI{0}{\degree} to \SI{90}{\degree}
+    \begin{equation}
+        Z_{RL}=\frac{V_m}{I_m}\angle(\theta_v-\theta_i)\implies \SI{0}{\degree}<\theta_v-\theta_i<\SI{90}{\degree}
+    \end{equation}
+    \item In the time domain, the voltage will lead the current by a quarter of a period. (blue is voltage, red is current)
+    \begin{center}
+        \begin{tikzpicture}
+            \begin{axis}[xlabel=$\omega t$]
+                \addplot[domain=0:5][color=red]{sin(x*57)};
+                \addplot[domain=0:5][color=blue]{sin(x*57+20)*0.7};
+            \end{axis}
+        \end{tikzpicture}
+    \end{center}
+\end{itemize}
+\subsubsection{RC Circuit}
+\begin{center}
+    \begin{circuitikz}
+        \draw (0,0)node[left]{b}
+        to (2,0)
+        to[C=$C$](2,2)
+        to[R=$R$] (2,4)
+        to(0,4)node[left]{a};
+    \end{circuitikz}
+\end{center}
+\begin{equation}
+    Z_{RC}=Z_R+Z_C=R-\frac{j}{\omega C}
+\end{equation}
+\begin{itemize}
+    \item $Z_{RC}$ is located in the fourth quadrant of the complex plane. The angle of the impedance is 
+    \begin{equation}
+        \angle Z_{RC}=\arctan(-\frac{1}{\omega RC})
+    \end{equation}
+    \item If $R>>\frac{1}{\omega C}\implies\angle Z_{RC}\to \SI{0}{\degree}$
+    \item If $R<<\frac{1}{\omega C}\implies\angle Z_{RC}\to \SI{-90}{\degree}$
+    \item $\SI{-90}{\degree} < \theta_v-\theta_i < \SI{0}{\degree}$,
+    \item Because of this, the voltage of an RC circuit lags the current by an angle between \SI{0}{\degree} to \SI{90}{\degree}.
+\end{itemize}
+\subsubsection{LC Circuit}
+\begin{center}
+    \begin{circuitikz}
+        \draw (0,0)node[left]{b}
+        to (2,0)
+        to[C=$C$](2,2)
+        to[L=$L$] (2,4)
+        to(0,4)node[left]{a};
+    \end{circuitikz}
+\end{center}
+\begin{equation}
+    Z_{LC}=Z_L+Z_C=j\omega L-\frac{j}{\omega c}=j\left(\omega L-\frac{1}{\omega C}\right)
+\end{equation}
+\begin{itemize}
+    \item The impedance is purely imaginary. 
+    \item If $\omega L>\frac{1}{\omega C}$, the impedance will be on the positive imaginary axis. These circuit are called \textbf{inductive} LC circuits.
+    \item If $\omega L<\frac{1}{\omega C}$, the impedance will be on the negative imaginary axis. These circuit are called \textbf{capacitive} LC circuits.
+    \item The voltage can either lead or lag the current, depending on the if it is an inductive or capacitive circuit. 
+\end{itemize}
+\subsubsection{RLC Circuit}
+\begin{center}
+    \begin{circuitikz}
+        \draw (0,0)node[left]{b}
+        to (2,0)
+        to[C=$C$](2,1.3)
+        to[L=$L$] (2,2.7)
+        to[R=$R$] (2,4)
+        to(0,4)node[left]{a};
+    \end{circuitikz}
+\end{center}
+\begin{equation}
+    Z_{RLC}=Z_R+Z_L+Z_C=R+j\left(\omega L-\frac{1}{\omega C}\right)
+\end{equation}
+\begin{itemize}
+    \item The real part of the impedance is positive, but the imaginary part can be either positive or negative. Thus, the complex number can be located in first or fourth quadrant of the complex plane.
+    \item If $Z_{RLC}$ is in the first quadrant ($\omega L>\frac{1}{\omega C}$), the RLC circuit is called an \textbf{inductive} (RL) circuit.
+    \item If \(Z_{RLC}\) is in the fourth quadrant ($\omega_L <\frac{1}{\omega C}$), the RLC circuit is called an \textbf{capacitive} (RC) circuit. 
+\end{itemize}
+\begin{example}
+    How do RL, RC, LC, and RLC circuits behave if they are connected in parellel?
+\end{example}
 % mouse hover event
 % get mouse position (system.windows.form.cursor.positon)
 % Form.location (where the form is on the screen)
@@ -2558,5 +2709,70 @@ Where $v_{oc}$ and $i_{sc}$ \textbf{must} conform to PSC.
 
 % image box
 % C# bitmap for updating image
+\section{Analysis of AC Circuits}
+\begin{itemize}
+    \item Application of KVL and KCL in the phasor domain
+    \item The function of $Z=\mathbf{V}/\mathbf{I}$ relation in AC circuit analysis is similar to the function of $R=v/i$ in DC circuit analysis.
+    \item All the circuit analysis techniques for DC circuits (nodal analysis, mesh analysis, voltage division, superposition, etc) are applicable to AC circuits as well. The only difference is that complex numbers must be used (phasors and impedances)
+\end{itemize}
+
+\begin{example}
+    \begin{center}
+        \begin{circuitikz}
+            \draw (0,3)
+            to[V=$v(t)$] (0,0)
+            to(6,0)
+            to[R=\SI{8}{\ohm}](6,3)
+            to[L=\SI{0.2}{H}](3,3)
+            to[C=\SI{2}{mF},i<=$i(t)$](0,3);
+            \draw(3,3)
+            to[R=\SI{3}{\ohm}](3,1.2)
+            to[C=\SI{10}{mF}](3,0);
+        \end{circuitikz}
+    \end{center}
+    $v(t)=20\cos(50t)$. Find $i(t)$.
+\end{example}
+\begin{sol}
+    First we must convert all voltage and current to phasors, and all the circuit elements to impedances. The voltage source has a voltage phasor $\mathbf V=20\angle 0$.
+
+    To find the impedances, we call the impedance of the \SI{2}{mF} capacitor $Z_1$, the RC component $Z_2$ and the RL component $Z_3$. The frequency of the circuit is dependent on the source, which here is $\omega=50$
+    \begin{align}
+        Z_1&=\frac{-j}{\omega C_1}=\frac{-j}{50\times 0.002}=-j\SI{10}{\ohm}\\
+        Z_2&=R_2-\frac{j}{\omega C_2}=3-\frac{j}{50\times 0.01}=3-j2\si{\ohm}\\
+        Z_3&=R_3+j\omega L_2=8+j50\times 0.2=8+j10\si{\ohm}
+    \end{align}
+    Representing the circuit in the phasor domain,
+    \begin{center}
+        \begin{circuitikz}
+            (0,3)
+            to[V=20$\angle$0] (0,0)
+            to(6,0)
+            to[R=\SI{8}{\ohm}](6,3)
+            to[L=\SI{0.2}{H}](3,3)
+            to[C=\SI{2}{mF},i<=$i(t)$](0,3);
+            \draw(3,3)
+            to[R=\SI{3}{\ohm}](3,1.2)
+            to[C=\SI{10}{mF}](3,0);
+        \end{circuitikz}
+    \end{center}
+    We can find the equivalent impedance, note $Z_2$ and $Z_3$ is connected in parellel, which is connected in series with $Z_1$. Thus, 
+    \begin{equation}
+        Z_{eq}=Z_1+Z_2||Z_3=Z_1+\frac{Z_2Z_3}{Z_2+Z_3}=3.22+j11.07\si{\ohm}=11.53\angle \SI{-73.5}{\ohm}
+    \end{equation}
+    Now using ohm's law for phasors,
+    \begin{equation}
+        \mathbf I=\frac{\mathbf V}{Z_{eq}}=\frac{20\angle 0}{11.53\angle -73.5\si{\degree}}=1.73\angle 73.5\si{\degree}
+    \end{equation}
+    Converting this back to the time domain, 
+    \begin{equation}
+        i(t)=1.73\cos(50t+\SI{73.5}{\degree})
+    \end{equation}
+\end{sol}
+\begin{itemize}
+    \item Note that this circuit can be replaced with an equivalent RL or RC.
+    \item If the reactance is positive, it can be replaced with RL, otherwise it can be replaced with RC. (Note this is possible because the frequency remains constant)
+    \item In the example above, $R_{eq}=\SI{3.22}{\ohm}, C_{eq}=\SI{1.81}{mF}$.
+\end{itemize}
+
 
 \end{document}
