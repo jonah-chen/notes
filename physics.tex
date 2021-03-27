@@ -1,0 +1,142 @@
+\documentclass{article}
+\usepackage[a4paper, margin=0.5in]{geometry}
+
+\usepackage{amsmath}
+\numberwithin{equation}{section}
+
+\usepackage{amssymb}
+\usepackage{physics}
+\usepackage{tikz}
+\usepackage[american]{circuitikz}
+\usepackage{physoly}
+\usepackage{siunitx}
+\usepackage{bbm}
+
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.16}
+\setlength{\parindent}{0em}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\ve}{\mathbf}
+\newcommand{\bigspace}{\:\:\:\:\:\:\:\:\:\:\:\:\:\:\:\:\:\:\:\:\:\:\:\:}
+\newcommand{\smallspace}{\:\:\:\:\:\:\:\:}
+
+\title{Geometric Approach to Elementary Physics}
+\author{Jonah Chen}
+
+\begin{document}
+    \maketitle
+    \tableofcontents
+
+\section{Introduction}
+
+I will write the introduction later. 
+
+\section{Mathematical Preliminaries}
+
+We will be mostly working with vectors in three-dimensional space here. First, several concepts must be introduced that serves as the basis for this approach to elementary physics. Note that unless otherwise stated, these concepts are applicable to any finite dimensional vector space over the real numbers. We will use $\R^n$ to denote a $n-$dimensional vector space.
+
+\subsection{The Real Inner Product}
+
+\begin{definition}
+    In $\R^n$, we will define a function $\R^n\times\R^n\to\R$ denoted $\langle\, .\, ,\, .\, \rangle$ called the \textit{inner product} (or dot product) with the following properties:
+    \begin{enumerate}
+        \item Linearity of the second argument:
+        \begin{equation}
+            \langle \ve x,a\ve y+b\ve z\rangle=a\langle \ve x,\ve y\rangle+b\langle \ve x,\ve z\rangle
+        \end{equation}
+        For any $\ve x,\ve y, \ve z\in\R^n,\, a,b\in \R$.
+        \item Positive Definiteness:
+        \begin{equation}
+            \langle \ve x,\ve x\rangle \geq 0
+        \end{equation}
+        For any $\ve x\in\R^n$, with equality holding if and only if $\ve x=\ve 0$, the zero vector.
+        \item Commutativity\footnote{This is only true for the inner product in a real vector space.}:
+        \begin{equation}
+            \langle \ve x, \ve y\rangle =\langle \ve y,\ve x\rangle
+        \end{equation}
+        For any $\ve x,\ve y\in\R^n$.
+    \end{enumerate}
+\end{definition}
+
+\begin{proposition}
+    For any two non-zero vectors $\ve x,\ve y\in\R^n$, $\langle \ve x,\ve y\rangle=0$ implies $\ve x$ and $\ve y$ are linearly independent.
+    \begin{proof}
+        Consider the contrapositive case. If $\ve x$ and $\ve y$ are linearly dependent, $\ve y=a\ve x$ for some $a\neq 0\in\R$. Then, $\langle \ve x,\ve y\rangle=\langle \ve x,a\ve x\rangle=a\langle\ve x,\ve x\rangle=a(0)=0$. This means $\ve x=0$. However, $\ve x$ is non-zero; therefore, $\ve x$ and $\ve y$ are not linearly dependent.
+    \end{proof}
+\end{proposition}
+
+With this definition of the inner product, we can carefully select a basis for $\R^n$ called an orthonormal basis which will be used for the majority of this discussion. As $\R^n$ is a $n-$dimensional vector space, the basis consists of $n$ vectors.
+\begin{definition}
+    For $\R^n$, we define an orthonormal basis $\{\ve e_1,\ve e_2\dots\ve e_n\}$ such that
+    \begin{equation}
+        \langle \ve e_i,\ve e_j\rangle=\delta_{ij}\label{stdbasis}
+    \end{equation}
+\end{definition}
+Note that now, every vector in $\R^n$ can be written in this basis so that $\ve v=v^i\ve e_i$, where $v^i$ are the \textit{coordinates} or $\ve v$. The norm or the length of a vector can also be defined.
+\begin{definition}
+    The norm of a vector $\ve x\in\R^n$ is 
+    \begin{equation}
+        |\ve x|:=\sqrt{\langle\ve x,\ve x\rangle}\label{norm}
+    \end{equation}
+\end{definition}
+
+Using an orthonormal basis, this definition is consistent with the normal pythagorean definition of distance. 
+\begin{equation}
+    |\ve x|=\sqrt{\langle \ve x,\ve x\rangle}=\sqrt{x^ix^j\delta_{ij}}=\sqrt{\sum_i(x^i)^2}
+\end{equation}
+
+\subsection{Multivectors and Exterior Product}
+
+\begin{definition}
+    The \textit{exterior product} is a binary operation $\Lambda(\R^n)\times\Lambda(\R^n)\to\Lambda(\R^n)$ with the following properties 
+    \begin{enumerate}
+        \item Multilinearity:
+        \begin{align}
+            (a\vec x+b\vec y)\wedge \vec z&=a(\vec x\wedge\vec z)+b(\vec y\wedge \vec z)\\
+            \vec x\wedge (a\vec y+b\vec z) &=a(\vec x\wedge\vec y)+b(\vec x\wedge \vec z)
+        \end{align}
+        For any $\vec x,\vec y,\vec z\in\Lambda(\R^n)$ and $a,b\in\R$
+        \item Associativity:
+        \begin{equation}
+            (\vec x\wedge\vec y)\wedge\vec z=\vec x\wedge(\vec y\wedge\vec z)
+        \end{equation}
+        For any $\vec x,\vec y,\vec z\in\Lambda(\R^n)$
+        \item Antisymmetry:
+        \begin{equation}
+            \vec x\wedge\vec y=-\vec y\wedge\vec x
+        \end{equation}
+        For any $\vec x,\vec y\in\Lambda(\R^n)$
+    \end{enumerate}
+\end{definition}
+
+\begin{definition}
+    Firstly, we will make an intermediate definition. Define $G_k(\R^n)$ for $k=1,2,\dots,n$ recursively with 
+    \begin{align}
+        G_0(\R^n)&:=\R\\
+        G_1(\R^n)&:=\R^n\\
+        G_{i+1}(\R^n)&:=\{(\vec x\wedge \vec y)\,\, \forall\, \vec x\in G_{i}(\R^n),\vec y\in G_1(\R^n)\}\smallspace i>1
+    \end{align}
+    An \textit{exterior algebra} on the vector space $\R^n$ denoted $\Lambda(\R^n)$ is 
+    \begin{equation}
+        \Lambda(\R^n):=\bigoplus_{k=0}^nG_k(\R^n)\label{exterioralgebradef}
+    \end{equation}
+    A \textit{multivector} $\vec x$ is an element of the exterior algebra. Note that $G_k(\R^n)$ is known as the set of all multivectors of grade $k$ over the vector space $\R^n$.
+\end{definition}
+
+\begin{proposition}
+    $G_k(\R^n)$ is a $\binom{n}{k}-$dimensional vector space over $\R$.
+    \begin{proof}
+        For $k=0$, it is well known that $\R$ is a one-dimensional vector space. For $k=1$, by definition, $\R^n$ is a $n-$dimensional vector space.
+\\\\
+        For $k>1$, we will first show that $G_k(\R^n)$ is a vector space. From the recursive definition of $G_k(\R^n)$, any element $\vec x\in G_k(\R^n)$ can be expressed as $\vec x=\ve x_1\wedge\ve x_2\wedge...\wedge\ve x_k$ due to associativity of the exterior product.
+    \end{proof}
+    \begin{corollary}
+        $\Lambda(\R^n)$ is a $2^n-$dimensional vector space over $\R$.
+        \begin{proof}
+            By the definition in \eqref{exterioralgebradef}, the dimension of the direct sum of vector spaces is the sum of the dimensions of the vector spaces. It is well known that the sum of the $n-th$ row of the pascal triangle is $2^n$.
+        \end{proof}
+    \end{corollary}
+\end{proposition}
+
+\end{document}
