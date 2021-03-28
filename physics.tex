@@ -125,18 +125,87 @@ Using an orthonormal basis, this definition is consistent with the normal pythag
 \end{definition}
 
 \begin{proposition}
-    $G_k(\R^n)$ is a $\binom{n}{k}-$dimensional vector space over $\R$.
+    $G_k(\R^n)$ is a $\binom{n}{k}-$dimensional vector space over $\R$. For $k>0$, $G_k(\R^n)$ admits a \textit{standard basis}
+    \begin{equation}
+        E_k=\{\ve e_{i_1}\wedge\ve e_{i_2}\wedge\dots\wedge\ve e_{i_k}:1\leq i_1<i_2<\dots<i_k\leq n\}
+    \end{equation}
     \begin{proof}
         For $k=0$, it is well known that $\R$ is a one-dimensional vector space. For $k=1$, by definition, $\R^n$ is a $n-$dimensional vector space.
 \\\\
         For $k>1$, we will first show that $G_k(\R^n)$ is a vector space. From the recursive definition of $G_k(\R^n)$, any element $\vec x\in G_k(\R^n)$ can be expressed as $\vec x=\ve x_1\wedge\ve x_2\wedge...\wedge\ve x_k$ due to associativity of the exterior product.
+
+        We can show that it satisfies all the vector space axioms. 
+
+        %%% TODO: FINISH THE PROOF
+        
+        To show $E_k$ is a basis, we will first show that its elements are linearly independent. Suppose a superposition of the vectors
+        \begin{equation}
+            \lambda^{i_1i_2\dots i_k}(\ve e_{i_1}\wedge\ve e_{i_2}\wedge\dots\wedge\ve e_{i_k})=0
+        \end{equation}
+        Using the multilinearity of the exterior product, 
+        \begin{equation}
+            \lambda^{i_1i_2\dots i_k}\ve e_{i_1}\wedge\lambda^{i_1i_2\dots i_k}\ve e_{i_2}\wedge\dots\wedge\lambda^{i_1i_2\dots i_k}\ve e_{i_k}=0
+        \end{equation}
+        Next we can show the $G_k(\R^n)=\text{span}(E_k)$. Since the elements of $E_k\subset G_k(\R^n)$ and $G_k(\R^n)$ is a vector space, $\text{span}(E_k)\subseteq G_k(\R^n)$. Now given any $\vec x=\ve x_1\wedge\ve x_2\wedge...\wedge\ve x_k\in G_k(\R^n)$. The vectors $\ve x_1,\ve x_2,\dots,\ve x_n$ can be written as their coordinates with respect to the standard basis of $\R^n$.
+        \begin{equation}
+            \vec x=x_1^i\ve e_i\wedge x_2^i\ve e_i\wedge\dots\wedge x_k^i\ve e_i
+        \end{equation}
+        Using multilinearity of the exterior product, 
+        \begin{equation}
+            \vec x=\lambda^{i_1i_2\dots i_k}(\ve e_{i_1}\wedge\ve e_{i_2}\wedge\dots\wedge\ve e_{i_k})
+        \end{equation}
+        where 
+        \begin{equation}
+            \lambda^{i_1i_2\dots i_k}= % THESE PROOFS ARE SO HARD
+        \end{equation}
     \end{proof}
     \begin{corollary}
         $\Lambda(\R^n)$ is a $2^n-$dimensional vector space over $\R$.
         \begin{proof}
-            By the definition in \eqref{exterioralgebradef}, the dimension of the direct sum of vector spaces is the sum of the dimensions of the vector spaces. It is well known that the sum of the $n-th$ row of the pascal triangle is $2^n$.
+            By the definition of $\Lambda(\R^n)$ in \eqref{exterioralgebradef}, the direct sum of vector spaces is a vector space. The dimension of the direct sum of vector spaces is the sum of the dimensions of the vector spaces. It is well known that the sum of the $n-$th row of the pascal triangle is $2^n$.
         \end{proof}
     \end{corollary}
 \end{proposition}
+
+\subsection{Dot Product and Geometric Product}
+\begin{definition}
+    The \textit{geometric product} is the algebra operation in $\Lambda(\R^n)$ that must satisfy the following axioms 
+    \begin{enumerate}
+        \item Closure: 
+        \begin{equation}
+            \vec x\vec y\in\Lambda(\R^n)
+        \end{equation}
+        \item Existence of identity:
+        \begin{equation}
+            1\vec x=\vec x1=\vec x
+        \end{equation}
+        \item Associativity:
+        \begin{equation}
+            \vec x(\vec y\vec z)=(\vec x\vec y)\vec z
+        \end{equation}
+        \item Distributivity:
+        \begin{align}
+            \vec x(\vec y+\vec z)&=\vec x\vec y+\vec x\vec z\\
+            (\vec x+\vec y)\vec z&=\vec x\vec z+\vec y\vec z
+        \end{align}
+        \item 
+    \end{enumerate}
+\end{definition}
+
+\section{Geometric Algebra in Three Dimensional Space}
+
+We live in three dimensions and the vast majority of physics takes place in three dimensional space. As we are using this as the mathematical basis to do physics, we should familiarize ourselves with the mathematics in three dimensions in particular as it would be used extensively. 
+
+\subsection{Basis and Shorthand Notation}
+
+We first notice that $\Lambda(\R^3)=G_0(\R^3)\oplus G_1(\R^3)\oplus G_2(\R^3)\oplus G_3(\R^3)$ is an eight-dimensional vector space. We will assign some terminology to each of these subspaces.
+\begin{itemize}
+    \item Elements of $G_0(\R^3)$ are called \textit{scalars} and their basis consists of the real number one $E_0=\{1\}$. Quantities like time and charge are scalars.
+    \item Elements of $G_1(\R^3)$ are called \textit{vectors} and their basis is the familiar standard basis for $\R^3$, which we will redefine as $\ve e_1\equiv \hat x,\ve e_2\equiv \hat y,\ve e_3\equiv \hat z$. Then, the standard basis would be $E_1=\{\hat x,\hat y,\hat z\}$. Quantities like force, momentum, and position are vectors.
+    \item Elements of $G_2(\R^3)$ are called \textit{psudovectors}. The standard basis is called $E_2=\{\hat y\hat z, \hat z\hat x, \hat x\hat y\}\equiv\{I\hat x,I\hat y,I\hat z\}$. These are called psudovectors because they the the basis also consists of three elements. Quantities like angular momentum, torque, and magnetic field are psudovectors.
+    \item Elements of $G_3(\R^3)$ are called \textit{psudoscalars}. The standard basis only consists of one element $I\equiv \hat x\hat y\hat z$. Quantities like electric and magnetic flux are psudoscalars.
+\end{itemize}
+
+
 
 \end{document}
